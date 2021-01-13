@@ -141,7 +141,7 @@ endif
 
                             <div class="table-responsive">
                                 <table class="table text-center">
-                                    <thead class="text-uppercase bg-warning">
+                                    <thead class="text-uppercase bg-danger">
                                         <tr class="text-white">
                                             <th>No</th>
                                             <th>Tanggal</th>

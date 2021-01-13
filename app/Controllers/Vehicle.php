@@ -112,9 +112,9 @@ class Vehicle extends BaseController
                 $idUser = $this->session->get('id');
                 $cek = new \App\Entities\cekMingguan();
                 $cek->fill($data);
-                $cek->created_date = Date('Y-m-d H:i:s');
+                $cek->maint_created_date = Date('Y-m-d H:i:s');
                 $cek->active = 'Y';
-                $cek->created_by = $idUser;
+                $cek->maint_created_by = $idUser;
                 $cek->id_user = $idUser;
                 $cekMingguanModel->save($cek);
                 $id = $this->request->getPost('id_mobil');

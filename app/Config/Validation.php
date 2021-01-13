@@ -137,4 +137,30 @@ class Validation
 			'is_natural' => 'KM harus Angka'
 		],
 	];
+	public $updatePassword = [
+		'oldPassword' => [
+			'rules' => 'required|min_length[5]',
+		],
+		'newPassword' => [
+			'rules' => 'required|min_length[5]',
+		],
+		'repeatNewPassword' => [
+			'rules' => 'required|matches[newPassword]',
+		],
+	];
+
+	public $updatePassword_errors = [
+		'oldPassword' => [
+			'required' => '{field} Harus Diisi',
+			'min_length' => '{field} Minimal 5 Karakter',
+		],
+		'newPassword' => [
+			'required' => '{field} Harus Diisi',
+			'min_length' => '{field} Minimal 5 Karakter',
+		],
+		'repeatNewPassword' => [
+			'required' => '{field} Harus Diisi',
+			'matches' => 'Repeat Password tidak sama Dengan Password'
+		],
+	];
 }

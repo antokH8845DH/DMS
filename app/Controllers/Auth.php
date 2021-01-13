@@ -20,7 +20,6 @@ class Auth extends BaseController
             if (!$errors) {
                 $userModel = new \App\Models\UserModel();
                 $user =  new \App\Entities\User();
-
                 $user->username = $this->request->getPost('username');
                 $user->name = $this->request->getPost('username');
                 $user->password = $this->request->getPost('password');
@@ -56,11 +55,6 @@ class Auth extends BaseController
             $username =  $this->request->getPost('username');
             $password = $this->request->getPost('password');
             $user = $userModel->where('username', $username)->first();
-            // printf($username . ' ');
-            // printf($password . ' ');
-            // print_r($user);
-            // print_r($data);
-            // exit();
             if ($user) {
                 //jika user ada lakukan
                 $salt = $user->salt;
@@ -94,5 +88,47 @@ class Auth extends BaseController
     {
         $this->session->destroy();
         return redirect()->to(site_url('auth/login'));
+    }
+    public function gantiPassword()
+    {
+
+        $data = $this->request->getPost();
+        if ($data) {
+            $this->validation->run($data, 'updatePassword');
+            $errors = $this->validation->getErrors();
+            $id = $this->session->get('id');
+            $oldPassword = $this->request->getPost('oldPassword');
+            if (!$errors) {
+                $UserModel = new \App\Models\UserModel();
+                $User = $UserModel->where('id', $id)->First();
+                $salt = $User->salt;
+                // printf($salt);
+                if ($User->password !== md5($salt . $oldPassword)) {
+                    $this->session->setFlashdata('errors', ['Password Lama Tidak Sama']);
+                    return redirect()->to(base_url('home/user'));
+                } else {
+                    $user = new \App\Entities\User();
+                    $user->fill($data);
+                    $user->id = $id;
+                    $user->password = $this->request->getPost('newPassword');
+
+                    $user->updated_date = date('Y-m-d H:i:s');
+                    $user->updated_by = $id;
+                    // $array = [
+                    //     'password' => $password,
+                    //     'updated_date' => $updated_date,
+                    //     'updated_by' => $updated_by
+                    // ];
+                    // $User = $UserModel->where('id', $id);
+                    $UserModel->save($user);
+                    // print_r($user);
+                    // print_r($data);
+                    // exit;
+                    return redirect()->to(site_url('auth/logout'));
+                }
+            }
+            $this->session->setFlashdata('errors', $errors);
+            return redirect()->to(base_url('home/user'));
+        }
     }
 }
