@@ -3,28 +3,37 @@
 <?= $this->section('home') ?>
 <?php
 $session = session();
+$success = $session->getFlashData('success');
 $errors = $session->getFlashData('errors');
-
+// print_r($activities);
+// exit;
 ?>
-<?php if ($errors != null) : ?>
-    <div class="alert alert-danger" role="alert">
-        <h4 class="alert-heading">Terjadi Kesalahan</h4>
-        <hr>
-        <p class="mb-0">
-            <?php
-            foreach ($errors as $err) {
-                echo $err . '<br>';
-            }
-            ?>
-        </p>
-    </div>
-<?php
 
-endif
-?>
 <div class="main-content-inner">
     <div class="row">
         <div class="col-12 mt-2">
+            <?php if ($errors != null) : ?>
+                <div class="alert alert-danger" role="alert">
+                    <h4 class="alert-heading">Terjadi Kesalahan</h4>
+                    <hr>
+                    <p class="mb-0">
+                        <?php
+                        foreach ($errors as $err) {
+                            echo $err . '<br>';
+                        }
+                        ?>
+                    </p>
+                </div>
+            <?php endif ?>
+            <?php if ($success != null) : ?>
+                <div class="alert alert-success mt-2" role="success">
+                    <h4 class="alert-heading">SUKSES</h4>
+                    <hr>
+                    <p class="mb-0">
+                        Data Telah Tersimpan
+                    </p>
+                </div>
+            <?php endif ?>
             <div class="card">
                 <div class="card-body">
                     <h5 class="mb-3"><?= $mobils->merek . ' ' . $mobils->type . '<br>' . $mobils->nopol ?></h6>
@@ -60,12 +69,15 @@ endif
                                         <th>suara Mesn</th>
                                         <th>kop-ling</th>
                                         <th>stir</th>
-                                        <th>tek ban</th>
-                                        <th>alur ban</th>
+                                        <th>ban</th>
                                         <th>lamp</th>
                                         <th>wiper</th>
+                                        <th>tool-kit</th>
+                                        <th>Body</th>
+                                        <th>inte-rior</th>
                                         <th>problem</th>
                                         <th>action</th>
+                                        <th></th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -84,12 +96,15 @@ endif
                                             <td><?= $activity->suaraMesin ?></td>
                                             <td><?= $activity->kopling ?></td>
                                             <td><?= $activity->stir ?></td>
-                                            <td><?= $activity->tekananBan ?></td>
-                                            <td><?= $activity->alurBan ?></td>
+                                            <td><?= $activity->ban ?></td>
                                             <td><?= $activity->lampu ?></td>
                                             <td><?= $activity->wiper ?></td>
+                                            <td><?= $activity->toolkit ?></td>
+                                            <td><?= $activity->body ?></td>
+                                            <td><?= $activity->interior ?></td>
                                             <td><?= $activity->problem ?></td>
                                             <td><?= $activity->action ?></td>
+                                            <td><a class="btn btn-outline-warning " href="<?= site_url('vehicle/detailCek/' . $activity->idCek); ?>">edit</a></td>
                                         </tr>
                                     <?php endforeach; ?>
                                 </tbody>
@@ -119,7 +134,7 @@ endif
                                         <?php foreach ($maintenances as $index => $maintenance) : ?>
                                             <tr>
                                                 <td style="text-align: center;"><?= ($index + 1); ?></td>
-                                                <td><?= date('d-m-Y', strtotime($maintenance->maintenance_created_date)); ?></td>
+                                                <td><?= date('d-m-Y', strtotime($maintenance->tanggal)); ?></td>
                                                 <td><?= $maintenance->km; ?></td>
                                                 <td><?= $maintenance->username; ?></td>
                                                 <td><?= $maintenance->detail; ?></td>
@@ -156,7 +171,7 @@ endif
                                         <?php foreach ($troubles as $index => $trouble) : ?>
                                             <tr>
                                                 <td style="text-align: center;"><?= ($index + 1); ?></td>
-                                                <td><?= date('d-m-Y', strtotime($trouble->maintenance_created_date)); ?></td>
+                                                <td><?= date('d-m-Y', strtotime($trouble->tanggal)); ?></td>
                                                 <td><?= $trouble->km; ?></td>
                                                 <td><?= $trouble->username; ?></td>
                                                 <td><?= $trouble->detail; ?></td>

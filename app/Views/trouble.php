@@ -45,6 +45,12 @@ $id_user = $session->get('id');
                                     <input hidden type="text" class="form-control" placeholder="KM saat ini" name="status" value="2">
                                 </div>
                             </div>
+                            <div class="form-group row">
+                                <label class="col-sm-1 mt-1 col-form-label">Tanggal</label>
+                                <div class="col-sm-2">
+                                    <input class="form-control" type="date" id="example-date-input" name="tanggal">
+                                </div>
+                            </div>
                             <div class="card">
                                 <div class="card-header">
                                     <a class="card-link" data-toggle="collapse" href="#accordion51">MESIN</a>

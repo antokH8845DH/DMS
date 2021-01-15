@@ -14,4 +14,12 @@ class User extends Entity
 
         return $this;
     }
+    public function setProfile($file)
+    {
+        $fileName = $file->getRandomName();
+        $writePath = './image/profile';
+        $file->move($writePath, $fileName);
+        $this->attributes['avatar'] = $fileName;
+        return $this;
+    }
 }

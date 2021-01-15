@@ -25,7 +25,7 @@
             z-index: 1151;
         }
     </style>
-
+    <!-- <link rel="stylesheet" href="<?= base_url(); ?>/assets/dist/css/adminlte.min.css"> -->
     <?= $this->renderSection('head') ?>
 
     <script src="<?= base_url(); ?>/assets/js/vendor/modernizr-2.8.3.min.js"></script>

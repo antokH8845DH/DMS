@@ -4,10 +4,20 @@
 <?php
 $session = session();
 $errors = $session->getFlashData('errors');
+$success = $session->getFlashData('success');
 ?>
 <div class="main-content-inner">
     <div class="row">
         <div class="card my-3 col-md-8" style="max-width: 540px;">
+            <?php if ($success != null) : ?>
+                <div class="alert alert-success mt-2" role="success">
+                    <h4 class="alert-heading">SUKSES</h4>
+                    <hr>
+                    <p class="mb-0">
+                        Data Telah Tersimpan
+                    </p>
+                </div>
+            <?php endif ?>
             <?php if ($errors != null) : ?>
                 <div class="alert alert-danger mt-2" role="alert">
                     <h4 class="alert-heading">Terjadi Kesalahan</h4>
@@ -40,18 +50,34 @@ $errors = $session->getFlashData('errors');
                             <div class="modal-dialog modal-dialog-centered" role="document">
                                 <div class="modal-content">
                                     <div class="modal-header">
-                                        <h5 class="modal-title" id="exampleModalCenterTitle">Modal title</h5>
+                                        <h5 class="modal-title" id="exampleModalCenterTitle">Ganti Profile</h5>
                                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                             <span aria-hidden="true">&times;</span>
                                         </button>
                                     </div>
-                                    <form>
+                                    <form action="<?= site_url(); ?>/auth/gantiProfile" method="POST" enctype="multipart/form-data">
                                         <div class="modal-body">
-                                            ...
+                                            <div class="form-group mb-3 row">
+                                                <label for="exampleInputPassword1" class="col-3 ml-1">Username</label>
+                                                <input type="text" class="form-control col-4 ml-3" name="username" placeholder="Username" value="<?= $session->get('username'); ?>">
+                                                <div class="text-danger"></div>
+                                            </div>
+                                            <div class="form-group mb-3 row">
+                                                <!-- <div class="input-group"> -->
+                                                <label for="exampleInputFile" class="col-4 ml-1">File Photo Profile</label>
+                                                <div class="custom-file col-8 ml-3">
+                                                    <input type="file" class="custom-file-input" id="exampleInputFile" name='profile'>
+                                                    <label class="custom-file-label" for="exampleInputFile">Pilih file</label>
+                                                </div>
+                                                <!-- <div class="input-group-append">
+                                                        <span class="input-group-text">Upload</span>
+                                                    </div> -->
+                                                <!-- </div> -->
+                                            </div>
                                         </div>
                                         <div class="modal-footer">
                                             <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                                            <button type="button" class="btn btn-primary">Save changes</button>
+                                            <button type="submit" class="btn btn-primary">Save changes</button>
                                         </div>
                                     </form>
                                 </div>
@@ -98,4 +124,14 @@ $errors = $session->getFlashData('errors');
         </div>
     </div>
 </div>
+<?= $this->endSection(); ?>
+<?= $this->section('script'); ?>
+<!-- bs-custom-file-input -->
+<script src="<?= base_url(''); ?>/assets/bs-custom-file-input/bs-custom-file-input.min.js"></script>
+<!-- Page specific script -->
+<script>
+    $(function() {
+        bsCustomFileInput.init();
+    });
+</script>
 <?= $this->endSection(); ?>

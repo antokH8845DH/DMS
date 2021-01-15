@@ -21,7 +21,7 @@ class Vehicle extends BaseController
     }
 
     //--------------------------------------------------------------------
-    public function add()
+    public function add() //menambah mobil
     {
         if ($this->request->getPost()) {
 
@@ -56,33 +56,34 @@ class Vehicle extends BaseController
     {
         $vehicleModel = new \App\Models\VehicleModel();
         $id = $this->request->uri->getSegment(3);
+        // print_r($id);
+        // exit;
         $mobil = $vehicleModel->find($id);
-
         $data = [
-            'mobil' => $mobil,
+            'mobils' => $mobil,
         ];
-        return view('detailRutin', ['mobils' => $mobil]);
+        return view('detailRutin', $data);
     }
     public function detail()
     {
         $vehicleModel = new \App\Models\VehicleModel();
-        $id = $this->request->uri->getSegment(3);
-        $mobil = $vehicleModel->find($id);
+        $idmobil = $this->request->uri->getSegment(3);
+        $mobil = $vehicleModel->find($idmobil);
         $user = new \App\Models\UserModel();
         $date = '(now() - interval 1 month)';
 
         $cekMingguan = new \App\Models\CekMingguanModel();
-        $array = ['cekMingguan.id_mobil' => $id, 'cekMingguan.maint_created_date >' => $date, 'cekMingguan.active' => 'Y'];
-        $activity =  $cekMingguan->join('user', 'user.id=cekMingguan.id_user', 'left')
+        $array = ['cekMingguan.id_mobil' => $idmobil, 'cekMingguan.maint_created_date >' => $date, 'cekMingguan.active' => 'Y'];
+        $activity =  $cekMingguan->join('user', 'user.id=cekMingguan.id_user')
             ->where($array)->findAll();
 
         $maintenance = new \App\Models\MaintenanceModel();
-        $array22 = ['maintenance.id_mobil' => $id, 'maintenance.maintenance_created_date >' => $date, 'maintenance.active' => 'Y', 'maintenance.status' => '1'];
-        $maintenances = $maintenance->join('user', 'user.id=maintenance.id_user', 'right')
+        $array22 = ['maintenance.id_mobil' => $idmobil, 'maintenance.tanggal >' => $date, 'maintenance.active' => 'Y', 'maintenance.status' => '1'];
+        $maintenances = $maintenance->join('user', 'user.id=maintenance.id_user')
             ->where($array22)->findAll();
         $trouble = new \App\Models\MaintenanceModel();
-        $array23 = ['maintenance.id_mobil' => $id, 'maintenance.maintenance_created_date >' => $date, 'maintenance.active' => 'Y', 'maintenance.status' => '2'];
-        $troubles = $trouble->join('user', 'user.id=maintenance.id_user', 'right')
+        $array23 = ['maintenance.id_mobil' => $idmobil, 'maintenance.tanggal >' => $date, 'maintenance.active' => 'Y', 'maintenance.status' => '2'];
+        $troubles = $trouble->join('user', 'user.id=maintenance.id_user')
             ->where($array23)->findAll();
 
         $data = [
@@ -119,9 +120,10 @@ class Vehicle extends BaseController
                 $cekMingguanModel->save($cek);
                 $id = $this->request->getPost('id_mobil');
                 $notif = 'Data Telah Tersimpan';
-                $this->session->setFlashdata('ok', $notif);
-                // $this->session->keep_flashdata('ok', $notif);
                 $segment = ['vehicle', 'detail', $id];
+                if ($cekMingguanModel) {
+                    $this->session->setFlashdata('success', "Data Telah di Simpan");
+                }
                 return redirect()->to(site_url($segment));
             } else {
                 $this->session->setFlashdata('errors', $errors);
@@ -225,6 +227,9 @@ class Vehicle extends BaseController
                     $MaintenanceModel->save($Maintenance);
                     // print_r($kaki) . '<br>';
                 }
+                if ($MaintenanceModel) {
+                    $this->session->setFlashdata('success', "Data Telah di Simpan");
+                }
                 $segment = ['vehicle', 'detail', $id];
                 // print_r($id);
                 // exit;
@@ -238,5 +243,56 @@ class Vehicle extends BaseController
         // print_r($errors);
         // print_r($id_user);
         // exit;
+
+    }
+
+    public function detailCek()
+    {
+        $cekMingguanModel = new \App\Models\CekMingguanModel();
+        $id = $this->request->uri->getSegment(3);
+        $cek = $cekMingguanModel->find($id);
+        $idmobil = $cek->id_mobil;
+        $vehicleModel = new \App\Models\VehicleModel();
+        $mobil = $vehicleModel->find($idmobil);
+        $data = [
+            'ceks' => $cek,
+            'mobils' => $mobil
+        ];
+        return view('editDetailRutin', $data);
+    }
+    public function editCheck()
+    {
+        $idCek = $this->request->uri->getSegment(3);
+        $cekMingguanModel = new \App\Models\CekMingguanModel();
+        $mingguan = $cekMingguanModel->find($idCek);
+        $data = $this->request->getPost();
+        $idUser = $this->session->get('id');
+        if ($data) {
+            $this->validation->run($data, 'cekMingguan');
+            $errors = $this->validation->getErrors();
+            if (!$errors) {
+                $cek = new \App\Entities\cekMingguan();
+                $cek->idCek = $idCek;
+                $cek->fill($data);
+                $cek->maint_updated_date = Date('Y-m-d H:i:s');
+                $cek->active = 'Y';
+                $cek->maint_updated_by = $idUser;
+                // $cek->id_user = $idUser;
+                // print_r($cek);
+                // exit;
+                $cekMingguanModel->save($cek);
+                $id = $this->request->getPost('id_mobil');
+                $notif = 'Data Telah Tersimpan';
+                $segment = ['vehicle', 'detail', $id];
+                if ($cekMingguanModel) {
+                    $this->session->setFlashdata('success', "Data Telah di Simpan");
+                }
+                return redirect()->to(site_url($segment));
+            } else {
+                $this->session->setFlashdata('errors', $errors);
+            }
+        }
+        $segment = ['vehicle', 'detailRutin', $id];
+        return redirect()->to(site_url($segment));
     }
 }

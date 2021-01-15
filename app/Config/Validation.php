@@ -129,12 +129,18 @@ class Validation
 	public $cekMingguan = [
 		'km' => [
 			'rules' => 'required|is_natural'
+		],
+		'tanggal' => [
+			'rules' => 'required'
 		]
 	];
 	public $cekMingguan_errors = [
 		'km' => [
 			'required' => 'KM harus di isi',
 			'is_natural' => 'KM harus Angka'
+		],
+		'tanggal' => [
+			'required' => 'Tanggal harus dipilih'
 		],
 	];
 	public $updatePassword = [
@@ -161,6 +167,19 @@ class Validation
 		'repeatNewPassword' => [
 			'required' => '{field} Harus Diisi',
 			'matches' => 'Repeat Password tidak sama Dengan Password'
+		],
+	];
+
+	public $gantiProfile = [
+		'username' => [
+			'rules' => 'required',
+
+		],
+	];
+	public $gantiProfile_errors = [
+		'username' => [
+			'required' => '{field} Harus Diisi',
+			// 'min_length' => '{field} Minimal 3 Karakter',
 		],
 	];
 }

@@ -4,6 +4,7 @@
 <?php
 $session = session();
 $errors = $session->getFlashData('errors');
+$success = $session->getFlashData('success');
 
 ?>
 <?php if ($errors != null) : ?>
@@ -16,6 +17,16 @@ $errors = $session->getFlashData('errors');
                 echo $err . '<br>';
             }
             ?>
+        </p>
+    </div>
+<?php endif ?>
+
+<?php if ($success != null) : ?>
+    <div class="alert alert-success mt-2" role="success">
+        <h4 class="alert-heading">SUKSES</h4>
+        <hr>
+        <p class="mb-0">
+            Data Telah Tersimpan
         </p>
     </div>
 <?php endif ?>

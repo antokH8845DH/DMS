@@ -111,24 +111,44 @@ class Auth extends BaseController
                     $user->fill($data);
                     $user->id = $id;
                     $user->password = $this->request->getPost('newPassword');
-
                     $user->updated_date = date('Y-m-d H:i:s');
                     $user->updated_by = $id;
-                    // $array = [
-                    //     'password' => $password,
-                    //     'updated_date' => $updated_date,
-                    //     'updated_by' => $updated_by
-                    // ];
-                    // $User = $UserModel->where('id', $id);
                     $UserModel->save($user);
-                    // print_r($user);
-                    // print_r($data);
-                    // exit;
                     return redirect()->to(site_url('auth/logout'));
                 }
             }
             $this->session->setFlashdata('errors', $errors);
             return redirect()->to(base_url('home/user'));
         }
+    }
+    public function gantiProfile()
+    {
+        $data = $this->request->getPost();
+        $id = $this->session->get('id');
+        if ($data) {
+            $this->validation->run($data, 'gantiProfile');
+            $errors = $this->validation->getErrors();
+            if (!$errors) {
+                $UserModel = new \App\Models\UserModel();
+                $UserModel->where('id', $id)->First();
+                $user = new \App\Entities\User();
+                // $User = $UserModel->find($id);
+                $user->fill($data);
+                $user->profile = $this->request->getFile('profile');
+                $user->updated_date = date('Y-m-d H:i:s');
+                $user->updated_by = $id;
+                // print_r($UserModel);
+                // exit;
+                $UserModel->save($user);
+
+                if ($UserModel) {
+                    $this->session->setFlashdata('success', "Data Telah di Simpan");
+                }
+                return redirect()->to(base_url('home/user'));
+            }
+            $this->session->setFlashdata('errors', $errors);
+            return redirect()->to(base_url('home/user'));
+        }
+        return redirect()->to(base_url('home/user'));
     }
 }
