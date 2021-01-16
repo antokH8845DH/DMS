@@ -5,6 +5,8 @@
 $session = session();
 $errors = $session->getFlashData('errors');
 $success = $session->getFlashData('success');
+// print_r($users);
+// exit;
 ?>
 <div class="main-content-inner">
     <div class="row">
@@ -33,7 +35,7 @@ $success = $session->getFlashData('success');
             <?php endif ?>
             <div class="row no-gutters">
                 <div class="col-md-4">
-                    <img src="<?= base_url('/assets/images/author/avatar.png'); ?>" class="card-img mt-4 ml-2" alt="image">
+                    <img src="<?= base_url('/image/profile/' . $session->get('avatar')) ?>" class="card-img mt-4 ml-2" alt="image">
                 </div>
                 <div class="col-md-8">
                     <div class="card-body">
@@ -55,7 +57,7 @@ $success = $session->getFlashData('success');
                                             <span aria-hidden="true">&times;</span>
                                         </button>
                                     </div>
-                                    <form action="<?= site_url(); ?>/auth/gantiProfile" method="POST" enctype="multipart/form-data">
+                                    <form action="<?= base_url('Auth/gantiProfile/' . $session->get('id')); ?>" method="POST" enctype="multipart/form-data">
                                         <div class="modal-body">
                                             <div class="form-group mb-3 row">
                                                 <label for="exampleInputPassword1" class="col-3 ml-1">Username</label>

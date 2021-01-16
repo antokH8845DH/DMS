@@ -67,6 +67,7 @@ class Auth extends BaseController
                         'username' => $user->username,
                         'name' => $user->name,
                         'id' => $user->id,
+                        'avatar' => $user->avatar,
                         'role' => $user->role,
                         'isLoggedIn' => true,
                     ];
@@ -124,31 +125,42 @@ class Auth extends BaseController
     public function gantiProfile()
     {
         $data = $this->request->getPost();
-        $id = $this->session->get('id');
+        $id = $this->request->uri->getSegment(3);
+        $UserModel = new \App\Models\UserModel();
+        $UserModel->find($id);
         if ($data) {
             $this->validation->run($data, 'gantiProfile');
             $errors = $this->validation->getErrors();
             if (!$errors) {
-                $UserModel = new \App\Models\UserModel();
-                $UserModel->where('id', $id)->First();
-                $user = new \App\Entities\User();
-                // $User = $UserModel->find($id);
-                $user->fill($data);
-                $user->profile = $this->request->getFile('profile');
-                $user->updated_date = date('Y-m-d H:i:s');
-                $user->updated_by = $id;
-                // print_r($UserModel);
-                // exit;
-                $UserModel->save($user);
+                $userUpdate = new \App\Entities\User();
+                $userUpdate->id = $id;
+                $userUpdate->fill($data);
+                if ($this->request->getFile('profile')->isValid()) {
+
+                    $userUpdate->profile = $this->request->getFile('profile');
+                }
+                $userUpdate->updated_date = date('Y-m-d H:i:s');
+                $userUpdate->updated_by = $id;
+                $UserModel->save($userUpdate);
+                $user = $UserModel->find($id);
+                $sessData = [
+                    'username' => $user->username,
+                    'name' => $user->name,
+                    'id' => $user->id,
+                    'avatar' => $user->avatar,
+                    'role' => $user->role,
+                    'isLoggedIn' => true,
+                ];
+                $this->session->set($sessData);
 
                 if ($UserModel) {
                     $this->session->setFlashdata('success', "Data Telah di Simpan");
                 }
-                return redirect()->to(base_url('home/user'));
+                return redirect()->to(base_url('home/user/' . $id));
             }
             $this->session->setFlashdata('errors', $errors);
-            return redirect()->to(base_url('home/user'));
+            return redirect()->to(base_url('home/user/' . $id));
         }
-        return redirect()->to(base_url('home/user'));
+        return view('home/user/' . $id);
     }
 }
