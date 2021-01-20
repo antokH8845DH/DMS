@@ -73,16 +73,25 @@ class Vehicle extends BaseController
         $date = '(now() - interval 1 month)';
 
         $cekMingguan = new \App\Models\CekMingguanModel();
-        $array = ['cekMingguan.id_mobil' => $idmobil, 'cekMingguan.maint_created_date >' => $date, 'cekMingguan.active' => 'Y'];
+        $array = [
+            'cekMingguan.id_mobil' => $idmobil, 'cekMingguan.maint_created_date >' => $date, 'cekMingguan.active' => 'Y',
+            'validasi' => 'N'
+        ];
         $activity =  $cekMingguan->join('user', 'user.id=cekMingguan.id_user')
             ->where($array)->findAll();
 
         $maintenance = new \App\Models\MaintenanceModel();
-        $array22 = ['maintenance.id_mobil' => $idmobil, 'maintenance.tanggal >' => $date, 'maintenance.active' => 'Y', 'maintenance.status' => '1'];
+        $array22 = [
+            'maintenance.id_mobil' => $idmobil, 'maintenance.tanggal >' => $date, 'maintenance.active' => 'Y',
+            'maintenance.status' => '1', 'maintenance.validasi' => 'N'
+        ];
         $maintenances = $maintenance->join('user', 'user.id=maintenance.id_user')
             ->where($array22)->findAll();
         $trouble = new \App\Models\MaintenanceModel();
-        $array23 = ['maintenance.id_mobil' => $idmobil, 'maintenance.tanggal >' => $date, 'maintenance.active' => 'Y', 'maintenance.status' => '2'];
+        $array23 = [
+            'maintenance.id_mobil' => $idmobil, 'maintenance.tanggal >' => $date, 'maintenance.active' => 'Y',
+            'maintenance.status' => '2', 'maintenance.validasi' => 'N'
+        ];
         $troubles = $trouble->join('user', 'user.id=maintenance.id_user')
             ->where($array23)->findAll();
 
@@ -138,8 +147,23 @@ class Vehicle extends BaseController
         $id = $this->request->uri->getSegment(3);
         $mobil = $vehicleModel->find($id);
         $user = new \App\Models\UserModel();
+        $MaintenanceModel = new \App\Models\MaintenanceModel();
+        $maintenance = $MaintenanceModel->orderBy('id_maint', 'DESC')->first();
+        $m = new \App\Entities\Maintenance();
+        if ($maintenance) {
+            $no = $maintenance->no_form;
+        } else {
+            $no = 0;
+        }
+        if ($no >= 1) {
+            $no_form = $no + 1;
+        } else {
+            $no_form = 1;
+        }
+
         $data = [
             'mobils' => $mobil,
+            'no_form' => $no_form,
         ];
         return view('maintenance', $data);
     }
@@ -149,8 +173,21 @@ class Vehicle extends BaseController
         $id = $this->request->uri->getSegment(3);
         $mobil = $vehicleModel->find($id);
         $user = new \App\Models\UserModel();
+        $MaintenanceModel = new \App\Models\MaintenanceModel();
+        $maintenance = $MaintenanceModel->orderBy('id_maint', 'DESC')->first();
+        $m = new \App\Entities\Maintenance();
+        // print_r($maintenance);
+        // exit;
+        $no = $maintenance->no_form;
+        if ($no >= 1) {
+            $no_form = $no + 1;
+        } else {
+            $no_form = 1;
+        }
+
         $data = [
             'mobils' => $mobil,
+            'no_form' => $no_form,
         ];
         return view('trouble', $data);
     }
@@ -175,7 +212,8 @@ class Vehicle extends BaseController
         $detail_body = $this->request->getPost('detailBody');
         $detail_kaki = $this->request->getPost('detailKaki');
         $detail_listrik = $this->request->getPost('detailListrik');
-
+        // print_r($data);
+        // exit;
         if ($data) {
             $this->validation->run($data, 'cekMingguan');
             $errors = $this->validation->getErrors();
@@ -267,6 +305,7 @@ class Vehicle extends BaseController
         $mingguan = $cekMingguanModel->find($idCek);
         $data = $this->request->getPost();
         $idUser = $this->session->get('id');
+        $id = $this->request->getPost('id_mobil');
         if ($data) {
             $this->validation->run($data, 'cekMingguan');
             $errors = $this->validation->getErrors();
@@ -281,7 +320,7 @@ class Vehicle extends BaseController
                 // print_r($cek);
                 // exit;
                 $cekMingguanModel->save($cek);
-                $id = $this->request->getPost('id_mobil');
+
                 $notif = 'Data Telah Tersimpan';
                 $segment = ['vehicle', 'detail', $id];
                 if ($cekMingguanModel) {
@@ -293,6 +332,248 @@ class Vehicle extends BaseController
             }
         }
         $segment = ['vehicle', 'detailRutin', $id];
+        return redirect()->to(site_url($segment));
+    }
+    public function detailMaint()
+    {
+        $no_form = $this->request->uri->getSegment(3);
+        $MaintenanceModel = new \App\Models\MaintenanceModel();
+        $maint = $MaintenanceModel->where('no_form', $no_form)->first();
+        $idmobil = $maint->id_mobil;
+        $arrayMesin = [
+            'no_form' => $no_form,
+            'detail' => 'Mesin'
+        ];
+        $maintMesin = $MaintenanceModel->where($arrayMesin)->first();
+        $vehicleModel = new \App\Models\VehicleModel();
+        $mobil = $vehicleModel->find($idmobil);
+        $arrayBody = [
+            'no_form' => $no_form,
+            'detail' => 'Body'
+        ];
+        $maintBody = $MaintenanceModel->where($arrayBody)->first();
+        $arrayKaki = [
+            'no_form' => $no_form,
+            'detail' => 'Kaki-Kaki'
+        ];
+        $maintKaki = $MaintenanceModel->where($arrayKaki)->first();
+        $arrayListrik = [
+            'no_form' => $no_form,
+            'detail' => 'Listrik'
+        ];
+        $maintListrik = $MaintenanceModel->where($arrayListrik)->first();
+
+        $data = [
+            'maintMesin' => $maintMesin,
+            'maintBody' => $maintBody,
+            'maintKaki' => $maintKaki,
+            'maintListrik' => $maintListrik,
+            'mobils' => $mobil,
+            'maint' => $maint,
+        ];
+        $status = $maint->status;
+        if ($status == '1') {
+
+            return view('editMaintenance', $data);
+        } else {
+            return view('editTrouble', $data);
+        }
+    }
+
+    public function editMaintenance()
+    {
+        $no_form = $this->request->uri->getSegment(3);
+        $MaintenanceModel = new \App\Models\MaintenanceModel();
+        $idmobil = $this->request->getPost('id_mobil');
+        // $arrayMesin = [
+        //     'no_form' => $no_form,
+        //     'detail' => 'Mesin'
+        // ];
+        // $maintMesin = $MaintenanceModel->where($arrayMesin)->first();
+        // $vehicleModel = new \App\Models\VehicleModel();
+        // $mobil = $vehicleModel->find($idmobil);
+        // $arrayBody = [
+        //     'no_form' => $no_form,
+        //     'detail' => 'Body'
+        // ];
+        // $maintBody = $MaintenanceModel->where($arrayBody)->first();
+        // $arrayKaki = [
+        //     'no_form' => $no_form,
+        //     'detail' => 'Kaki-Kaki'
+        // ];
+        // $maintKaki = $MaintenanceModel->where($arrayKaki)->first();
+        // $arrayListrik = [
+        //     'no_form' => $no_form,
+        //     'detail' => 'Listrik'
+        // ];
+        // $maintListrik = $MaintenanceModel->where($arrayListrik)->first();
+
+        // $data = [
+        //     'maintMesin' => $maintMesin,
+        //     'maintBody' => $maintBody,
+        //     'maintKaki' => $maintKaki,
+        //     'maintListrik' => $maintListrik,
+        //     'mobils' => $mobil,
+        // ];
+
+        if ($this->request->getPost()) {
+            $data = $this->request->getPost();
+
+            $updated = date('Y-m-d H:i:s');
+            $problem_mesin = $this->request->getPost('problem_mesin');
+            $problem_body = $this->request->getPost('problem_body');
+            $problem_kaki = $this->request->getPost('problem_kaki');
+            $problem_listrik = $this->request->getPost('problem_listrik');
+            $action_mesin = $this->request->getPost('action_mesin');
+            $action_body = $this->request->getPost('action_body');
+            $action_kaki = $this->request->getPost('action_kaki');
+            $action_listrik = $this->request->getPost('action_listrik');
+            $detail_mesin = $this->request->getPost('detailMesin');
+            $detail_body = $this->request->getPost('detailBody');
+            $detail_kaki = $this->request->getPost('detailKaki');
+            $detail_listrik = $this->request->getPost('detailListrik');
+            $id_maint_mesin = $this->request->getPost('id_maint_mesin');
+            $id_maint_body = $this->request->getPost('id_maint_body');
+            $id_maint_listrik = $this->request->getPost('id_maint_listrik');
+            $id_maint_kaki = $this->request->getPost('id_maint_kaki');
+            $id_mobil =  $this->request->getPost('id_mobil');
+            $cekMesin = $this->request->getPost('cekMesin');
+            $cekBody = $this->request->getPost('cekBody');
+            $cekKaki = $this->request->getPost('cekKaki');
+            $cekListrik = $this->request->getPost('cekListrik');
+            // printf($cekMesin);
+            // printf($cekBody);
+            // printf($cekKaki);
+            // printf($cekListrik);
+            // exit;
+            $iduser = $this->session->get('id');
+            $this->validation->run($data, 'cekMingguan');
+            $errors = $this->validation->getErrors();
+            if (!$errors) {
+                $Maintenance = new \App\Entities\Maintenance();
+                if ($cekMesin == '0') {
+                    if ($problem_mesin <> '') {
+                        $Maintenance->fill($data);
+                        $Maintenance->problem = $problem_mesin;
+                        $Maintenance->action = $action_mesin;
+                        $Maintenance->detail = $detail_mesin;
+                        $Maintenance->maintenance_created_date = $updated;
+                        $Maintenance->maintenance_updated_by = $iduser;
+                        $MaintenanceModel->save($Maintenance);
+                    }
+                }
+                if ($cekMesin == '1') {
+                    if ($problem_mesin <> '') {
+                        $Maintenance->id_maint = $id_maint_mesin;
+                        $Maintenance->fill($data);
+                        $Maintenance->problem = $problem_mesin;
+                        $Maintenance->action = $action_mesin;
+                        $Maintenance->detail = $detail_mesin;
+                        $Maintenance->maintenance_updated_date = $updated;
+                        $Maintenance->maintenance_updated_by =  $iduser;
+                        $MaintenanceModel->save($Maintenance);
+                    }
+                }
+                if ($cekBody == '0') {
+                    if ($problem_body <> '') {
+                        $Maintenance->fill($data);
+                        $Maintenance->problem = $problem_body;
+                        $Maintenance->action = $action_body;
+                        $Maintenance->detail = $detail_body;
+                        $Maintenance->maintenance_created_date = $updated;
+                        $Maintenance->maintenance_updated_by = $iduser;
+                        $MaintenanceModel->save($Maintenance);
+                    }
+                }
+                if ($cekBody == '1') {
+                    if ($problem_body <> '') {
+                        $Maintenance->id_maint = $id_maint_body;
+                        $Maintenance->fill($data);
+                        $Maintenance->problem = $problem_body;
+                        $Maintenance->action = $action_body;
+                        $Maintenance->detail = $detail_body;
+                        $Maintenance->maintenance_updated_date = $updated;
+                        $Maintenance->maintenance_updated_by =  $iduser;
+                        $MaintenanceModel->save($Maintenance);
+                    }
+                }
+                if ($cekListrik == '0') {
+                    if ($problem_listrik <> '') {
+                        $Maintenance->fill($data);
+                        $Maintenance->problem = $problem_listrik;
+                        $Maintenance->action = $action_listrik;
+                        $Maintenance->detail = $detail_listrik;
+                        $Maintenance->maintenance_created_date = $updated;
+                        $Maintenance->maintenance_updated_by = $iduser;
+                        $MaintenanceModel->save($Maintenance);
+                    }
+                }
+                if ($cekListrik == '1') {
+                    if ($problem_listrik <> '') {
+                        $Maintenance->id_maint = $id_maint_listrik;
+                        $Maintenance->fill($data);
+                        $Maintenance->problem = $problem_listrik;
+                        $Maintenance->action = $action_listrik;
+                        $Maintenance->detail = $detail_listrik;
+                        $Maintenance->maintenance_updated_date = $updated;
+                        $Maintenance->maintenance_updated_by =  $iduser;
+                        $MaintenanceModel->save($Maintenance);
+                    }
+                }
+                if ($cekKaki == '0') {
+                    if ($problem_kaki <> '') {
+                        $Maintenance->fill($data);
+                        $Maintenance->problem = $problem_kaki;
+                        $Maintenance->action = $action_kaki;
+                        $Maintenance->detail = $detail_kaki;
+                        $Maintenance->maintenance_created_date = $updated;
+                        $Maintenance->maintenance_updated_by = $iduser;
+                        $MaintenanceModel->save($Maintenance);
+                    }
+                }
+                if ($cekKaki == '1') {
+                    if ($problem_kaki <> '') {
+                        $Maintenance->id_maint = $id_maint_kaki;
+                        $Maintenance->fill($data);
+                        $Maintenance->problem = $problem_kaki;
+                        $Maintenance->action = $action_kaki;
+                        $Maintenance->detail = $detail_kaki;
+                        $Maintenance->maintenance_updated_date = $updated;
+                        $Maintenance->maintenance_updated_by =  $iduser;
+                        $MaintenanceModel->save($Maintenance);
+                    }
+                }
+                // printf($cekMesin);
+                // printf($cekBody);
+                // printf($cekListrik);
+                // printf($cekKaki);
+                // print_r($Maintenance);
+                // exit;
+                if ($MaintenanceModel) {
+                    $this->session->setFlashdata('success', "Data Telah di Update");
+                }
+                $segment = ['vehicle', 'detail', $id_mobil];
+                // print_r($id);
+                // exit;
+                return redirect()->to(site_url($segment));
+            }
+            $this->session->setFlashdata('errors', $errors);
+        }
+        $segment = ['vehicle', 'detail', $id_mobil];
+        return redirect()->to(site_url($segment));
+    }
+
+    public function delMaint()
+    {
+        $id_maint = $this->request->uri->getSegment(3);
+        $MaintenanceModel = new \App\Models\MaintenanceModel();
+        $detail = $MaintenanceModel->find($id_maint);
+        $maintenance = new \App\Entities\Maintenance();
+        $id_mobil = $detail->id_mobil;
+        $maintenance->id_maint = $id_maint;
+        $maintenance->active = 'N';
+        $MaintenanceModel->save($maintenance);
+        $segment = ['vehicle', 'detail', $id_mobil];
         return redirect()->to(site_url($segment));
     }
 }

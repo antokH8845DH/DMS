@@ -171,13 +171,13 @@ class Validation
 	];
 
 	public $gantiProfile = [
-		'username' => [
+		'name' => [
 			'rules' => 'required',
 
 		],
 	];
 	public $gantiProfile_errors = [
-		'username' => [
+		'name' => [
 			'required' => '{field} Harus Diisi',
 			// 'min_length' => '{field} Minimal 3 Karakter',
 		],

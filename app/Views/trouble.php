@@ -43,6 +43,7 @@ $id_user = $session->get('id');
                                     <input type="text" class="form-control col-sm-4" placeholder="KM saat ini" name="km">
                                     <input hidden type="text" class="form-control" placeholder="KM saat ini" name="id_user" value="<?= $id_user ?>">
                                     <input hidden type="text" class="form-control" placeholder="KM saat ini" name="status" value="2">
+                                    <input hidden type="text" class="form-control" placeholder="no form" name="no_form" value="<?= $no_form; ?>">
                                 </div>
                             </div>
                             <div class="form-group row">

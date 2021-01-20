@@ -35,7 +35,7 @@ $success = $session->getFlashData('success');
             <?php endif ?>
             <div class="row no-gutters">
                 <div class="col-md-4">
-                    <img src="<?= base_url('/image/profile/' . $session->get('avatar')) ?>" class="card-img mt-4 ml-2" alt="image">
+                    <img src="<?= base_url('/image/profile/' . $session->get('avatar')) ?>" class="card-img mt-4 mx-1" alt="image">
                 </div>
                 <div class="col-md-8">
                     <div class="card-body">
@@ -43,7 +43,7 @@ $success = $session->getFlashData('success');
                         <div class="card-title mt-3">
                             <h3>PROFILE</h3>
                         </div>
-                        <h5 class="card-title"><?= $session->get('username'); ?></h5>
+                        <h5 class="card-title"><?= $session->get('name'); ?></h5>
                         <p class="card-text"><b>username : <?= $session->get('username'); ?> </p>
                         <p class="card-text"><small class="text-muted"><b>Penerbit : </b> </small></p>
                         <a href="" class="btn btn-warning" data-toggle="modal" data-target="#modalEdit">Edit</a>
@@ -60,8 +60,8 @@ $success = $session->getFlashData('success');
                                     <form action="<?= base_url('Auth/gantiProfile/' . $session->get('id')); ?>" method="POST" enctype="multipart/form-data">
                                         <div class="modal-body">
                                             <div class="form-group mb-3 row">
-                                                <label for="exampleInputPassword1" class="col-3 ml-1">Username</label>
-                                                <input type="text" class="form-control col-4 ml-3" name="username" placeholder="Username" value="<?= $session->get('username'); ?>">
+                                                <label for="exampleInputPassword1" class="col-3 ml-1">Name</label>
+                                                <input type="text" class="form-control col-4 ml-3" name="name" placeholder="name" value="<?= $session->get('name'); ?>">
                                                 <div class="text-danger"></div>
                                             </div>
                                             <div class="form-group mb-3 row">

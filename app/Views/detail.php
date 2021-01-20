@@ -60,7 +60,7 @@ $errors = $session->getFlashData('errors');
                                         <th>Tanggal</th>
                                         <th>KM</th>
                                         <th>Cek oleh</th>
-                                        <th style="">Oli Mesin</th>
+                                        <th>Oli Mesin</th>
                                         <th>Oli Rem</th>
                                         <th>air Rad</th>
                                         <th>air Aki</th>
@@ -128,6 +128,7 @@ $errors = $session->getFlashData('errors');
                                             <th>Detail</th>
                                             <th>Problem</th>
                                             <th>Action</th>
+                                            <th></th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -140,6 +141,32 @@ $errors = $session->getFlashData('errors');
                                                 <td><?= $maintenance->detail; ?></td>
                                                 <td><?= $maintenance->problem; ?></td>
                                                 <td><?= $maintenance->action; ?></td>
+                                                <td><a class="btn btn-sm btn-outline-warning " href="<?= site_url('vehicle/detailMaint/' . $maintenance->no_form); ?>">Edit</a>
+                                                    <a href="" class="btn btn-sm btn-outline-danger" data-toggle="modal" data-target="#modalDelete<?= $maintenance->id_maint ?>">Hapus</a>
+                                                    <div class="modal fade" id="modalDelete<?= $maintenance->id_maint ?>" tabindex="-10" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                                                        <div class="modal-dialog modal-dialog-centered" role="document">
+                                                            <div class="modal-content">
+                                                                <div class="modal-header">
+                                                                    <h5 class="modal-title" id="exampleModalCenterTitle">Yakin Data akan dihapus??</h5>
+                                                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                                        <span aria-hidden="true">&times;</span>
+                                                                    </button>
+                                                                </div>
+                                                                <form action="<?= site_url('/vehicle/delMaint/' . $maintenance->id_maint); ?>" method="POST">
+                                                                    <div class="modal-body">
+
+                                                                    </div>
+                                                                    <div class="modal-footer">
+                                                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                                                        <button type="submit" class="btn btn-primary">Save changes</button>
+                                                                    </div>
+                                                                </form>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </td>
+
+
                                             </tr>
                                         <?php endforeach ?>
                                     </tbody>
@@ -165,6 +192,7 @@ $errors = $session->getFlashData('errors');
                                             <th>Detail</th>
                                             <th>Problem</th>
                                             <th>Action</th>
+                                            <th></th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -177,6 +205,30 @@ $errors = $session->getFlashData('errors');
                                                 <td><?= $trouble->detail; ?></td>
                                                 <td><?= $trouble->problem; ?></td>
                                                 <td><?= $trouble->action; ?></td>
+                                                <td><a class="btn btn-outline-warning " href="<?= site_url('vehicle/detailMaint/' . $trouble->no_form); ?>">Edit</a>
+                                                    <a href="" class="btn btn-sm btn-outline-danger" data-toggle="modal" data-target="#modalDelete1<?= $trouble->id_maint ?>">Hapus</a>
+                                                    <div class="modal fade" id="modalDelete1<?= $trouble->id_maint ?>" tabindex="-10" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                                                        <div class="modal-dialog modal-dialog-centered" role="document">
+                                                            <div class="modal-content">
+                                                                <div class="modal-header">
+                                                                    <h5 class="modal-title" id="exampleModalCenterTitle">Yakin Data akan dihapus??</h5>
+                                                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                                        <span aria-hidden="true">&times;</span>
+                                                                    </button>
+                                                                </div>
+                                                                <form action="<?= site_url('/vehicle/delMaint/' . $trouble->id_maint); ?>" method="POST">
+                                                                    <div class="modal-body">
+                                                                        Problem : <?= $trouble->problem; ?>
+                                                                    </div>
+                                                                    <div class="modal-footer">
+                                                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                                                        <button type="submit" class="btn btn-primary">Save changes</button>
+                                                                    </div>
+                                                                </form>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </td>
                                             </tr>
                                         <?php endforeach ?>
                                     </tbody>
