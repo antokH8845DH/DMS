@@ -65,11 +65,11 @@ $id_user = $session->get('id');
                                 <div id="accordion51" class="collapse show" data-parent="#accordion5">
                                     <div class="card-body">
                                         <div class="form-group row">
-                                            <input type="text" class="form-control" placeholder="cek created date" name="cekMesin" value="<?php if ($maintMesin) {
-                                                                                                                                                echo '1';
-                                                                                                                                            } else {
-                                                                                                                                                echo '0';
-                                                                                                                                            } ?>">
+                                            <input hidden type="text" class="form-control" placeholder="cek created date" name="cekMesin" value="<?php if ($maintMesin) {
+                                                                                                                                                        echo '1';
+                                                                                                                                                    } else {
+                                                                                                                                                        echo '0';
+                                                                                                                                                    } ?>">
                                             <input hidden type="text" class="form-control" placeholder="id maintenance" name="id_maint_mesin" value="<?php if ($maintMesin) {
                                                                                                                                                             echo $maintMesin->id_maint;
                                                                                                                                                         } else {
@@ -103,11 +103,11 @@ $id_user = $session->get('id');
                                     <div class="card-body">
                                         <div class="form-group row">
 
-                                            <input type="text" class="form-control" placeholder="cek created date" name="cekBody" value="<?php if ($maintBody) {
-                                                                                                                                                echo '1';
-                                                                                                                                            } else {
-                                                                                                                                                echo '0';
-                                                                                                                                            } ?>">
+                                            <input hidden type="text" class="form-control" placeholder="cek created date" name="cekBody" value="<?php if ($maintBody) {
+                                                                                                                                                    echo '1';
+                                                                                                                                                } else {
+                                                                                                                                                    echo '0';
+                                                                                                                                                } ?>">
                                             <input hidden type="text" class="form-control" placeholder="id maintenance body" name="id_maint_body" value="<?php if ($maintBody) {
                                                                                                                                                                 echo $maintBody->id_maint;
                                                                                                                                                             } else {
@@ -140,11 +140,11 @@ $id_user = $session->get('id');
                                 <div id="accordion53" class="collapse" data-parent="#accordion5">
                                     <div class="card-body">
                                         <div class="form-group row">
-                                            <input type="text" class="form-control" placeholder="cek created date" name="cekKaki" value="<?php if ($maintKaki) {
-                                                                                                                                                echo '1';
-                                                                                                                                            } else {
-                                                                                                                                                echo '0';
-                                                                                                                                            } ?>">
+                                            <input hidden type="text" class="form-control" placeholder="cek created date" name="cekKaki" value="<?php if ($maintKaki) {
+                                                                                                                                                    echo '1';
+                                                                                                                                                } else {
+                                                                                                                                                    echo '0';
+                                                                                                                                                } ?>">
                                             <input hidden type="text" class="form-control" placeholder="id maintenance kaki" name="id_maint_kaki" value="<?php if ($maintKaki) {
                                                                                                                                                                 echo $maintKaki->id_maint;
                                                                                                                                                             } else {
@@ -177,11 +177,11 @@ $id_user = $session->get('id');
                                 <div id="accordion54" class="collapse" data-parent="#accordion5">
                                     <div class="card-body">
                                         <div class="form-group row">
-                                            <input type="text" class="form-control" placeholder="cek created date" name="cekListrik" value="<?php if ($maintListrik) {
-                                                                                                                                                echo '1';
-                                                                                                                                            } else {
-                                                                                                                                                echo '0';
-                                                                                                                                            } ?>">
+                                            <input hidden type="text" class="form-control" placeholder="cek created date" name="cekListrik" value="<?php if ($maintListrik) {
+                                                                                                                                                        echo '1';
+                                                                                                                                                    } else {
+                                                                                                                                                        echo '0';
+                                                                                                                                                    } ?>">
                                             <input hidden type="text" class="form-control" placeholder="id maintenance" name="id_maint_listrik" value="<?php if ($maintListrik) {
                                                                                                                                                             echo $maintListrik->id_maint;
                                                                                                                                                         } else {

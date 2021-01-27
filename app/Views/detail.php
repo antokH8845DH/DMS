@@ -153,12 +153,13 @@ $errors = $session->getFlashData('errors');
                                                                     </button>
                                                                 </div>
                                                                 <form action="<?= site_url('/vehicle/delMaint/' . $maintenance->id_maint); ?>" method="POST">
-                                                                    <div class="modal-body">
-
+                                                                    <div class="modal-body" style="text-align: left;">
+                                                                        <p>Problem : <?= $maintenance->problem; ?></p>
+                                                                        <p>Action : <?= $maintenance->action; ?></p>
                                                                     </div>
                                                                     <div class="modal-footer">
-                                                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                                                                        <button type="submit" class="btn btn-primary">Save changes</button>
+                                                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Batal</button>
+                                                                        <button type="submit" class="btn btn-danger">Ya Hapus</button>
                                                                     </div>
                                                                 </form>
                                                             </div>
@@ -217,12 +218,13 @@ $errors = $session->getFlashData('errors');
                                                                     </button>
                                                                 </div>
                                                                 <form action="<?= site_url('/vehicle/delMaint/' . $trouble->id_maint); ?>" method="POST">
-                                                                    <div class="modal-body">
-                                                                        Problem : <?= $trouble->problem; ?>
+                                                                    <div class="modal-body" style="text-align: left;">
+                                                                        <p>Problem : <?= $maintenance->problem; ?></p>
+                                                                        <p>Action : <?= $maintenance->action; ?></p>
                                                                     </div>
                                                                     <div class="modal-footer">
-                                                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                                                                        <button type="submit" class="btn btn-primary">Save changes</button>
+                                                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Batal</button>
+                                                                        <button type="submit" class="btn btn-danger">Ya Hapus</button>
                                                                     </div>
                                                                 </form>
                                                             </div>
