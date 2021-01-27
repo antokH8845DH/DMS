@@ -41,6 +41,7 @@ class Auth extends BaseController
 
     public function login()
     {
+
         if ($this->request->getPost()) {
             $data = $this->request->getPost();
             $validate = $this->validation->run($data, 'login');
@@ -51,6 +52,14 @@ class Auth extends BaseController
                 return view('login');
             }
             // jika tidak ada error lakukan
+            $cekMingguanModel = new \App\Models\CekMingguanModel();
+            $array = ['validasi' => 'N', 'active' => 'Y'];
+            $jmlcek = count($cekMingguanModel->where($array)->findAll());
+            $MaintenanceModel = new \App\Models\MaintenanceModel();
+            $jmlmaint = count($MaintenanceModel->where($array)->findAll());
+            $counts = $jmlcek + $jmlmaint;
+            $sessData = ['counts' => $counts];
+            $this->session->set($sessData);
             $userModel = new \App\Models\UserModel();
             $username =  $this->request->getPost('username');
             $password = $this->request->getPost('password');
@@ -70,6 +79,7 @@ class Auth extends BaseController
                         'avatar' => $user->avatar,
                         'role' => $user->role,
                         'isLoggedIn' => true,
+                        'counts' => $counts,
                     ];
                     $this->session->set($sessData);
                     // print_r($sessData);

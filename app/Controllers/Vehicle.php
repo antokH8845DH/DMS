@@ -14,6 +14,14 @@ class Vehicle extends BaseController
     }
     public function index()
     {
+        $cekMingguanModel = new \App\Models\CekMingguanModel();
+        $array = ['validasi' => 'N', 'active' => 'Y'];
+        $jmlcek = count($cekMingguanModel->where($array)->findAll());
+        $MaintenanceModel = new \App\Models\MaintenanceModel();
+        $jmlmaint = count($MaintenanceModel->where($array)->findAll());
+        $counts = $jmlcek + $jmlmaint;
+        $sessData = ['counts' => $counts];
+        $this->session->set($sessData);
         $vehicleModel =  new \App\Models\VehicleModel();
         $mobil =  $vehicleModel->where('active', 'Y')->findAll();
         $data = ['vehicles' => $mobil];
@@ -36,6 +44,14 @@ class Vehicle extends BaseController
                 $vehicle->active = 'Y';
                 $vehicle->created_date = Date('Y-m-d H:i:s');
                 $vehicleModel->save($vehicle);
+                $cekMingguanModel = new \App\Models\CekMingguanModel();
+                $array = ['validasi' => 'N', 'active' => 'Y'];
+                $jmlcek = count($cekMingguanModel->where($array)->findAll());
+                $MaintenanceModel = new \App\Models\MaintenanceModel();
+                $jmlmaint = count($MaintenanceModel->where($array)->findAll());
+                $counts = $jmlcek + $jmlmaint;
+                $sessData = ['counts' => $counts];
+                $this->session->set($sessData);
                 $segment = ['vehicle', 'index'];
                 return redirect()->to(site_url($segment));
             } else {
@@ -48,6 +64,13 @@ class Vehicle extends BaseController
 
     public function rutin()
     {
+        $cekMingguanModel = new \App\Models\CekMingguanModel();
+        $jmlcek = count($cekMingguanModel->where('validasi', 'N')->findAll());
+        $MaintenanceModel = new \App\Models\MaintenanceModel();
+        $jmlmaint = count($MaintenanceModel->where('validasi', 'N')->findAll());
+        $counts = $jmlcek + $jmlmaint;
+        $sessData = ['counts' => $counts];
+        $this->session->set($sessData);
         $vehicleModel = new \App\Models\VehicleModel();
         $mobil = $vehicleModel->where('active', 'Y')->findAll();
         return view('rutin', ['mobils' => $mobil]);
@@ -59,6 +82,14 @@ class Vehicle extends BaseController
         // print_r($id);
         // exit;
         $mobil = $vehicleModel->find($id);
+        $cekMingguanModel = new \App\Models\CekMingguanModel();
+        $jmlcek = count($cekMingguanModel->findAll());
+        // $jmlcek = count($cekMingguanModel->where('validasi', 'N')->findAll());
+        $MaintenanceModel = new \App\Models\MaintenanceModel();
+        $jmlmaint = count($MaintenanceModel->where('validasi', 'N')->findAll());
+        $counts = $jmlcek + $jmlmaint;
+        $sessData = ['counts' => $counts];
+        $this->session->set($sessData);
         $data = [
             'mobils' => $mobil,
         ];
@@ -75,7 +106,7 @@ class Vehicle extends BaseController
         $cekMingguan = new \App\Models\CekMingguanModel();
         $array = [
             'cekMingguan.id_mobil' => $idmobil, 'cekMingguan.maint_created_date >' => $date, 'cekMingguan.active' => 'Y',
-            'validasi' => 'N'
+
         ];
         $activity =  $cekMingguan->join('user', 'user.id=cekMingguan.id_user')
             ->where($array)->findAll();
@@ -83,14 +114,14 @@ class Vehicle extends BaseController
         $maintenance = new \App\Models\MaintenanceModel();
         $array22 = [
             'maintenance.id_mobil' => $idmobil, 'maintenance.tanggal >' => $date, 'maintenance.active' => 'Y',
-            'maintenance.status' => '1', 'maintenance.validasi' => 'N'
+            'maintenance.status' => '1',
         ];
         $maintenances = $maintenance->join('user', 'user.id=maintenance.id_user')
             ->where($array22)->findAll();
         $trouble = new \App\Models\MaintenanceModel();
         $array23 = [
             'maintenance.id_mobil' => $idmobil, 'maintenance.tanggal >' => $date, 'maintenance.active' => 'Y',
-            'maintenance.status' => '2', 'maintenance.validasi' => 'N'
+            'maintenance.status' => '2',
         ];
         $troubles = $trouble->join('user', 'user.id=maintenance.id_user')
             ->where($array23)->findAll();
@@ -101,6 +132,14 @@ class Vehicle extends BaseController
             'maintenances' => $maintenances,
             'troubles' => $troubles,
         ];
+        $cekMingguanModel = new \App\Models\CekMingguanModel();
+        $array = ['validasi' => 'N', 'active' => 'Y'];
+        $jmlcek = count($cekMingguanModel->where($array)->findAll());
+        $MaintenanceModel = new \App\Models\MaintenanceModel();
+        $jmlmaint = count($MaintenanceModel->where($array)->findAll());
+        $counts = $jmlcek + $jmlmaint;
+        $sessData = ['counts' => $counts];
+        $this->session->set($sessData);
 
         // print_r($activity);
         // exit;
@@ -127,8 +166,15 @@ class Vehicle extends BaseController
                 $cek->maint_created_by = $idUser;
                 $cek->id_user = $idUser;
                 $cekMingguanModel->save($cek);
+                $cekMingguanModel = new \App\Models\CekMingguanModel();
+                $array = ['active' => 'Y'];
+                $jmlcek = count($cekMingguanModel->where($array)->findAll());
+                $MaintenanceModel = new \App\Models\MaintenanceModel();
+                $jmlmaint = count($MaintenanceModel->where($array)->findAll());
+                $counts = $jmlcek + $jmlmaint;
+                $sessData = ['counts' => $counts];
+                $this->session->set($sessData);
                 $id = $this->request->getPost('id_mobil');
-                $notif = 'Data Telah Tersimpan';
                 $segment = ['vehicle', 'detail', $id];
                 if ($cekMingguanModel) {
                     $this->session->setFlashdata('success', "Data Telah di Simpan");
@@ -268,6 +314,14 @@ class Vehicle extends BaseController
                 if ($MaintenanceModel) {
                     $this->session->setFlashdata('success', "Data Telah di Simpan");
                 }
+                $cekMingguanModel = new \App\Models\CekMingguanModel();
+                $array = ['validasi' => 'N', 'active' => 'Y'];
+                $jmlcek = count($cekMingguanModel->where($array)->findAll());
+                $MaintenanceModel = new \App\Models\MaintenanceModel();
+                $jmlmaint = count($MaintenanceModel->where($array)->findAll());
+                $counts = $jmlcek + $jmlmaint;
+                $sessData = ['counts' => $counts];
+                $this->session->set($sessData);
                 $segment = ['vehicle', 'detail', $id];
                 // print_r($id);
                 // exit;
@@ -320,7 +374,14 @@ class Vehicle extends BaseController
                 // print_r($cek);
                 // exit;
                 $cekMingguanModel->save($cek);
-
+                $cekMingguanModel = new \App\Models\CekMingguanModel();
+                $array = ['validasi' => 'N', 'active' => 'Y'];
+                $jmlcek = count($cekMingguanModel->where($array)->findAll());
+                $MaintenanceModel = new \App\Models\MaintenanceModel();
+                $jmlmaint = count($MaintenanceModel->where($array)->findAll());
+                $counts = $jmlcek + $jmlmaint;
+                $sessData = ['counts' => $counts];
+                $this->session->set($sessData);
                 $notif = 'Data Telah Tersimpan';
                 $segment = ['vehicle', 'detail', $id];
                 if ($cekMingguanModel) {
@@ -336,6 +397,7 @@ class Vehicle extends BaseController
     }
     public function detailMaint()
     {
+
         $no_form = $this->request->uri->getSegment(3);
         $MaintenanceModel = new \App\Models\MaintenanceModel();
         $array = [
@@ -502,6 +564,14 @@ class Vehicle extends BaseController
                 if ($MaintenanceModel) {
                     $this->session->setFlashdata('success', "Data Telah di Update");
                 }
+                $cekMingguanModel = new \App\Models\CekMingguanModel();
+                $array = ['validasi' => 'N', 'active' => 'Y'];
+                $jmlcek = count($cekMingguanModel->where($array)->findAll());
+                $MaintenanceModel = new \App\Models\MaintenanceModel();
+                $jmlmaint = count($MaintenanceModel->where($array)->findAll());
+                $counts = $jmlcek + $jmlmaint;
+                $sessData = ['counts' => $counts];
+                $this->session->set($sessData);
                 $segment = ['vehicle', 'detail', $id_mobil];
                 return redirect()->to(site_url($segment));
             }
@@ -520,7 +590,17 @@ class Vehicle extends BaseController
         $id_mobil = $detail->id_mobil;
         $maintenance->id_maint = $id_maint;
         $maintenance->active = 'N';
+        // print_r($maintenance);
+        // exit;
         $MaintenanceModel->save($maintenance);
+        $cekMingguanModel = new \App\Models\CekMingguanModel();
+        $array = ['validasi' => 'N', 'active' => 'Y'];
+        $jmlcek = count($cekMingguanModel->where($array)->findAll());
+        $MaintenanceModel = new \App\Models\MaintenanceModel();
+        $jmlmaint = count($MaintenanceModel->where($array)->findAll());
+        $counts = $jmlcek + $jmlmaint;
+        $sessData = ['counts' => $counts];
+        $this->session->set($sessData);
         $segment = ['vehicle', 'detail', $id_mobil];
         return redirect()->to(site_url($segment));
     }

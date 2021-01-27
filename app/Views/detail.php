@@ -104,7 +104,13 @@ $errors = $session->getFlashData('errors');
                                             <td><?= $activity->interior ?></td>
                                             <td><?= $activity->problem ?></td>
                                             <td><?= $activity->action ?></td>
-                                            <td><a class="btn btn-outline-warning " href="<?= site_url('vehicle/detailCek/' . $activity->idCek); ?>">edit</a></td>
+                                            <td>
+                                                <?php if ($activity->validasi == 'N') : ?>
+                                                    <a class="btn btn-outline-warning " href="<?= site_url('vehicle/detailCek/' . $activity->idCek); ?>">edit</a>
+                                                <?php else : ?>
+                                                    <i class="fa fa-check-circle" style="font-size:30px;color:green"></i>
+                                                <?php endif ?>
+                                            </td>
                                         </tr>
                                     <?php endforeach; ?>
                                 </tbody>
@@ -141,30 +147,34 @@ $errors = $session->getFlashData('errors');
                                                 <td><?= $maintenance->detail; ?></td>
                                                 <td><?= $maintenance->problem; ?></td>
                                                 <td><?= $maintenance->action; ?></td>
-                                                <td><a class="btn btn-sm btn-outline-warning " href="<?= site_url('vehicle/detailMaint/' . $maintenance->no_form); ?>">Edit</a>
-                                                    <a href="" class="btn btn-sm btn-outline-danger" data-toggle="modal" data-target="#modalDelete<?= $maintenance->id_maint ?>">Hapus</a>
-                                                    <div class="modal fade" id="modalDelete<?= $maintenance->id_maint ?>" tabindex="-10" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-                                                        <div class="modal-dialog modal-dialog-centered" role="document">
-                                                            <div class="modal-content">
-                                                                <div class="modal-header">
-                                                                    <h5 class="modal-title" id="exampleModalCenterTitle">Yakin Data akan dihapus??</h5>
-                                                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                                                        <span aria-hidden="true">&times;</span>
-                                                                    </button>
+                                                <td><?php if ($maintenance->validasi == 'N') : ?>
+                                                        <a class="btn btn-sm btn-outline-warning " href="<?= site_url('vehicle/detailMaint/' . $maintenance->no_form); ?>">Edit</a>
+                                                        <a href="" class="btn btn-sm btn-outline-danger" data-toggle="modal" data-target="#modalDelete<?= $maintenance->id_maint ?>">Hapus</a>
+                                                        <div class="modal fade" id="modalDelete<?= $maintenance->id_maint ?>" tabindex="-10" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                                                            <div class="modal-dialog modal-dialog-centered" role="document">
+                                                                <div class="modal-content">
+                                                                    <div class="modal-header">
+                                                                        <h5 class="modal-title" id="exampleModalCenterTitle">Yakin Data akan dihapus??</h5>
+                                                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                                            <span aria-hidden="true">&times;</span>
+                                                                        </button>
+                                                                    </div>
+                                                                    <form action="<?= site_url('/vehicle/delMaint/' . $maintenance->id_maint); ?>" method="POST">
+                                                                        <div class="modal-body" style="text-align: left;">
+                                                                            <p>Problem : <?= $maintenance->problem; ?></p>
+                                                                            <p>Action : <?= $maintenance->action; ?></p>
+                                                                        </div>
+                                                                        <div class="modal-footer">
+                                                                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Batal</button>
+                                                                            <button type="submit" class="btn btn-danger">Ya Hapus</button>
+                                                                        </div>
+                                                                    </form>
                                                                 </div>
-                                                                <form action="<?= site_url('/vehicle/delMaint/' . $maintenance->id_maint); ?>" method="POST">
-                                                                    <div class="modal-body" style="text-align: left;">
-                                                                        <p>Problem : <?= $maintenance->problem; ?></p>
-                                                                        <p>Action : <?= $maintenance->action; ?></p>
-                                                                    </div>
-                                                                    <div class="modal-footer">
-                                                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Batal</button>
-                                                                        <button type="submit" class="btn btn-danger">Ya Hapus</button>
-                                                                    </div>
-                                                                </form>
                                                             </div>
                                                         </div>
-                                                    </div>
+                                                    <?php else : ?>
+                                                        <i class="fa fa-check-circle" style="font-size:30px;color:green"></i>
+                                                    <?php endif ?>
                                                 </td>
 
 
@@ -206,30 +216,34 @@ $errors = $session->getFlashData('errors');
                                                 <td><?= $trouble->detail; ?></td>
                                                 <td><?= $trouble->problem; ?></td>
                                                 <td><?= $trouble->action; ?></td>
-                                                <td><a class="btn btn-outline-warning " href="<?= site_url('vehicle/detailMaint/' . $trouble->no_form); ?>">Edit</a>
-                                                    <a href="" class="btn btn-sm btn-outline-danger" data-toggle="modal" data-target="#modalDelete1<?= $trouble->id_maint ?>">Hapus</a>
-                                                    <div class="modal fade" id="modalDelete1<?= $trouble->id_maint ?>" tabindex="-10" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-                                                        <div class="modal-dialog modal-dialog-centered" role="document">
-                                                            <div class="modal-content">
-                                                                <div class="modal-header">
-                                                                    <h5 class="modal-title" id="exampleModalCenterTitle">Yakin Data akan dihapus??</h5>
-                                                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                                                        <span aria-hidden="true">&times;</span>
-                                                                    </button>
+                                                <td>
+                                                    <?php if ($trouble->validasi == 'N') : ?>
+                                                        <a class="btn btn-outline-warning " href="<?= site_url('vehicle/detailMaint/' . $trouble->no_form); ?>">Edit</a>
+                                                        <a href="" class="btn btn-sm btn-outline-danger" data-toggle="modal" data-target="#modalDelete1<?= $trouble->id_maint ?>">Hapus</a>
+                                                        <div class="modal fade" id="modalDelete1<?= $trouble->id_maint ?>" tabindex="-10" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                                                            <div class="modal-dialog modal-dialog-centered" role="document">
+                                                                <div class="modal-content">
+                                                                    <div class="modal-header">
+                                                                        <h5 class="modal-title" id="exampleModalCenterTitle">Yakin Data akan dihapus??</h5>
+                                                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                                            <span aria-hidden="true">&times;</span>
+                                                                        </button>
+                                                                    </div>
+                                                                    <form action="<?= site_url('/vehicle/delMaint/' . $trouble->id_maint); ?>" method="POST">
+                                                                        <div class="modal-body" style="text-align: left;">
+                                                                            <p>Problem : <?= $maintenance->problem; ?></p>
+                                                                            <p>Action : <?= $maintenance->action; ?></p>
+                                                                        </div>
+                                                                        <div class="modal-footer">
+                                                                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Batal</button>
+                                                                            <button type="submit" class="btn btn-danger">Ya Hapus</button>
+                                                                        </div>
+                                                                    </form>
                                                                 </div>
-                                                                <form action="<?= site_url('/vehicle/delMaint/' . $trouble->id_maint); ?>" method="POST">
-                                                                    <div class="modal-body" style="text-align: left;">
-                                                                        <p>Problem : <?= $maintenance->problem; ?></p>
-                                                                        <p>Action : <?= $maintenance->action; ?></p>
-                                                                    </div>
-                                                                    <div class="modal-footer">
-                                                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Batal</button>
-                                                                        <button type="submit" class="btn btn-danger">Ya Hapus</button>
-                                                                    </div>
-                                                                </form>
                                                             </div>
                                                         </div>
-                                                    </div>
+                                                    <?php else : ?><i class="fa fa-check-circle" style="font-size:30px;color:green"></i>
+                                                    <?php endif ?>
                                                 </td>
                                             </tr>
                                         <?php endforeach ?>

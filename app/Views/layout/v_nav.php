@@ -1,5 +1,6 @@
 <?php $session = session();
 $role = $session->get('role');
+
 ?>
 
 <body>
@@ -65,11 +66,16 @@ $role = $session->get('role');
                     <nav>
                         <ul class="metismenu" id="menu">
                             <li class="active">
-                                <a href="<?= base_url('home/index'); ?>" aria-expanded="true">dashboard</a>
+                                <a href="<?= base_url('home/index'); ?>" aria-expanded="true">Dashboard</a>
                             <li>
                                 <?php if ($role !== '2') : ?>
                             <li class="active">
-                                <a href="<?= base_url('vehicle/index'); ?>" aria-expanded="true">Kendaraan</a>
+                                <a href="<?= base_url('vehicle/index'); ?>" aria-expanded="true">List Kendaraan</a>
+                            <li>
+                            <li class="active">
+                                <a href="<?= base_url('validasi/index'); ?>" aria-expanded="true">Validasi
+                                    <i><span class="badge badge-info right" style="text-align: right;"><?= $session->get('counts'); ?></span></i>
+                                </a>
                             <li>
                             <?php endif ?>
                             <li>
