@@ -140,6 +140,18 @@ $id_user = $session->get('id');
                                     </div>
                                 </div>
                             </div>
+                            <div class="form-group mb-3 row">
+                                <!-- <div class="input-group"> -->
+                                <label for="exampleInputFile" class="col-4 ml-1">Tambah Foto</label>
+                                <div class="custom-file col-8 ml-3">
+                                    <input type="file" class="custom-file-input" id="exampleInputFile" name='upload[]' multiple="true">
+                                    <label class="custom-file-label" for="exampleInputFile">Pilih file</label>
+                                </div>
+                                <!-- <div class="input-group-append">
+                                                        <span class="input-group-text">Upload</span>
+                                                    </div> -->
+                                <!-- </div> -->
+                            </div>
                             <div class="modal-footer">
                                 <button type="submit" class="btn btn-primary">Simpan</button>
                             </div>
@@ -151,4 +163,14 @@ $id_user = $session->get('id');
         <!-- accordion style 5 end -->
     </div>
 </div>
+<?= $this->endSection(); ?>
+<?= $this->section('script'); ?>
+<!-- bs-custom-file-input -->
+<script src="<?= base_url(''); ?>/assets/bs-custom-file-input/bs-custom-file-input.min.js"></script>
+<!-- Page specific script -->
+<script>
+    $(function() {
+        bsCustomFileInput.init();
+    });
+</script>
 <?= $this->endSection(); ?>

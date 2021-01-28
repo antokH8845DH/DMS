@@ -25,6 +25,12 @@ class Validasi extends BaseController
         $trouble = $MaintenanceModel->join('mobil', 'maintenance.id_mobil=mobil.id')->where(['maintenance.active' => 'Y', 'maintenance.validasi' => 'N', 'maintenance.status' => '2',])->findAll();
         $cekMingguanModel = new \App\Models\CekMingguanModel();
         $cek = $cekMingguanModel->join('mobil', 'cekmingguan.id_mobil=mobil.id')->where(['cekmingguan.active' => 'Y', 'cekmingguan.validasi' => 'N'])->findAll();
+        $array = ['validasi' => 'N', 'active' => 'Y'];
+        $jmlcek = count($cekMingguanModel->where($array)->findAll());
+        $MaintenanceModel = new \App\Models\MaintenanceModel();
+        $jmlmaint = count($MaintenanceModel->where($array)->findAll());
+        $counts = $jmlcek + $jmlmaint;
+        $sessData = ['counts' => $counts];
         return view('validasi', [
             'mobils' => $mobil, 'users' => $user,
             'maintenances' => $maintenance, 'ceks' => $cek,

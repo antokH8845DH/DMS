@@ -44,6 +44,9 @@ class Vehicle extends BaseController
                 $vehicle->active = 'Y';
                 $vehicle->created_date = Date('Y-m-d H:i:s');
                 $vehicleModel->save($vehicle);
+                if ($vehicleModel) {
+                    $this->session->setFlashdata('success', 'data telah tersimpan');
+                }
                 $cekMingguanModel = new \App\Models\CekMingguanModel();
                 $array = ['validasi' => 'N', 'active' => 'Y'];
                 $jmlcek = count($cekMingguanModel->where($array)->findAll());
@@ -61,7 +64,51 @@ class Vehicle extends BaseController
             return redirect()->to(site_url($segment));
         }
     }
+    public function editVehicle()
+    {
+        $id_mobil = $this->request->uri->getSegment(3);
+        $data = $this->request->getPost();
+        if ($data) {
+            $this->validation->run($data, 'mobil');
+            $errors = $this->validation->getErrors();
+            if (!$errors) {
+                $vehicleModel = new \App\Models\VehicleModel();
+                $vehicleModel->where('id', $id_mobil)->first();
+                $mobil = new \App\Entities\Vehicle();
+                $mobil->id = $id_mobil;
+                $mobil->fill($data);
+                $mobil->updated_by = $this->session->get('id');
+                $mobil->updated_date = date('Y-m-d H:i:s');
+                // print_r($id_mobil);
+                // print_r($mobil);
+                // exit;
+                $vehicleModel->save($mobil);
+                if ($vehicleModel) {
+                    $this->session->setFlashdata('success', 'data telah diupdate');
+                }
+                $segment = ['vehicle', 'index'];
+                return redirect()->to(site_url($segment));
+            }
+            $this->session->setFlashdata('errors', $errors);
+        }
+        $segment = ['vehicle', 'index'];
+        return redirect()->to(site_url($segment));
+    }
 
+    public function delVehicle()
+    {
+        $id_mobil = $this->request->uri->getSegment(3);
+        $vehicleModel = new \App\Models\VehicleModel();
+        $vehicleModel->where('id', $id_mobil)->first();
+        $mobil = new \App\Entities\Vehicle();
+        $mobil->id = $id_mobil;
+        $mobil->updated_by = $this->session->get('id');
+        $mobil->updated_date = date('Y-m-d H:i:s');
+        $mobil->active = 'N';
+        $vehicleModel->save($mobil);
+        $segment = ['vehicle', 'index'];
+        return redirect()->to(site_url($segment));
+    }
     public function rutin()
     {
         $cekMingguanModel = new \App\Models\CekMingguanModel();
@@ -105,10 +152,10 @@ class Vehicle extends BaseController
 
         $cekMingguan = new \App\Models\CekMingguanModel();
         $array = [
-            'cekMingguan.id_mobil' => $idmobil, 'cekMingguan.maint_created_date >' => $date, 'cekMingguan.active' => 'Y',
+            'cekmingguan.id_mobil' => $idmobil, 'cekmingguan.maint_created_date >' => $date, 'cekmingguan.active' => 'Y',
 
         ];
-        $activity =  $cekMingguan->join('user', 'user.id=cekMingguan.id_user')
+        $activity =  $cekMingguan->join('user', 'user.id=cekmingguan.id_user')
             ->where($array)->findAll();
 
         $maintenance = new \App\Models\MaintenanceModel();

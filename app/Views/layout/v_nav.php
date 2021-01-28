@@ -74,7 +74,10 @@ $role = $session->get('role');
                             <li>
                             <li class="active">
                                 <a href="<?= base_url('validasi/index'); ?>" aria-expanded="true">Validasi
-                                    <i><span class="badge badge-info right" style="text-align: right;"><?= $session->get('counts'); ?></span></i>
+                                    <?php $total = $session->get('counts');
+                                    if ($total > 0) : ?>
+                                        <i><span class="badge badge-info right" style="text-align: right;"><?= $total ?></span></i>
+                                    <?php endif; ?>
                                 </a>
                             <li>
                             <?php endif ?>

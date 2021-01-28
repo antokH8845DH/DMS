@@ -108,6 +108,7 @@ $errors = $session->getFlashData('errors');
                                                             </div>
                                                             <form action="<?= site_url('/validasi/valCek/' . $cek->idCek); ?>" method="POST">
                                                                 <div class="modal-body" style="text-align: left;">
+                                                                    <p>Cek Mingguan <?= $cek->merek . ' ' . $cek->type ?></p>
                                                                 </div>
                                                                 <div class="modal-footer">
                                                                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Batal</button>
@@ -169,6 +170,7 @@ $errors = $session->getFlashData('errors');
                                                                 </div>
                                                                 <form action="<?= site_url('/validasi/valMaint/' . $maintenance->id_maint); ?>" method="POST">
                                                                     <div class="modal-body" style="text-align: left;">
+                                                                        <p><?= $maintenance->merek . ' ' . $maintenance->type;; ?></p>
                                                                         <p>Problem : <?= $maintenance->problem; ?></p>
                                                                         <p>Action : <?= $maintenance->action; ?></p>
                                                                     </div>
@@ -216,7 +218,7 @@ $errors = $session->getFlashData('errors');
                                         <?php foreach ($troubles as $index => $trouble) : ?>
                                             <tr>
                                                 <td style="text-align: center;"><?= ($index + 1); ?></td>
-                                                <td><?= $maintenance->merek . ' ' . $maintenance->type; ?></td>
+                                                <td><?= $trouble->merek . ' ' . $trouble->type; ?></td>
                                                 <td><?= date('d-m-Y', strtotime($trouble->tanggal)); ?></td>
                                                 <td><?= $trouble->km; ?></td>
                                                 <td><?= $trouble->username; ?></td>
@@ -236,8 +238,9 @@ $errors = $session->getFlashData('errors');
                                                                 </div>
                                                                 <form action="<?= site_url('/validasi/valMaint/' . $trouble->id_maint); ?>" method="POST">
                                                                     <div class="modal-body" style="text-align: left;">
-                                                                        <p>Problem : <?= $maintenance->problem; ?></p>
-                                                                        <p>Action : <?= $maintenance->action; ?></p>
+                                                                        <p><?= $trouble->merek . ' ' . $trouble->type; ?></p>
+                                                                        <p>Problem : <?= $trouble->problem; ?></p>
+                                                                        <p>Action : <?= $trouble->action; ?></p>
                                                                     </div>
                                                                     <div class="modal-footer">
                                                                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Batal</button>

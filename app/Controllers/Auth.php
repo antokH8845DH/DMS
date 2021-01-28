@@ -146,7 +146,6 @@ class Auth extends BaseController
                 $userUpdate->id = $id;
                 $userUpdate->fill($data);
                 if ($this->request->getFile('profile')->isValid()) {
-
                     $userUpdate->profile = $this->request->getFile('profile');
                 }
                 $userUpdate->updated_date = date('Y-m-d H:i:s');
