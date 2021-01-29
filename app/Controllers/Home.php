@@ -29,4 +29,28 @@ class Home extends BaseController
 		$array = ['users' => $user,];
 		return view('user', $array);
 	}
+	public function upload()
+	{
+		return view('uploads');
+	}
+	public function image()
+	{
+
+		$files = $this->request->getFileMultiple('upload');
+		$UploadModel =  new \App\Models\UploadModel();
+		$Upload = new \App\Entities\Upload();
+		// print_r($files);
+		if ($files) {
+			// $uploads = \Config\Services::image('imagick');
+			foreach ($files as $file) {
+				$name = $file->getRandomName();
+				// $file->resize(1000, 1300, true, 'height');
+				echo $name . '<br>';
+				$file->move('../image/upload', $name);
+				$Upload->image = $name;
+				// $Upload->no_form = $no_form;
+				$UploadModel->save($Upload);
+			}
+		}
+	}
 }

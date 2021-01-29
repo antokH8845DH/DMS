@@ -182,4 +182,13 @@ class Validation
 			// 'min_length' => '{field} Minimal 3 Karakter',
 		],
 	];
+
+	// public $image = [
+	// 	'uploads' => ['is_image'],
+	// ];
+	// public $image_errors = [
+	// 	'uploads' => [
+	// 		'is_image' => ['Upload file harus file gambar'],
+	// 	]
+	// ];
 }

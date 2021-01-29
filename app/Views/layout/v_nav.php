@@ -73,6 +73,9 @@ $role = $session->get('role');
                                 <a href="<?= base_url('vehicle/index'); ?>" aria-expanded="true">List Kendaraan</a>
                             <li>
                             <li class="active">
+                                <a href="<?= base_url('Home/upload'); ?>" aria-expanded="true">Upload</a>
+                            <li>
+                            <li class="active">
                                 <a href="<?= base_url('validasi/index'); ?>" aria-expanded="true">Validasi
                                     <?php $total = $session->get('counts');
                                     if ($total > 0) : ?>

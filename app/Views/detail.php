@@ -5,6 +5,7 @@
 $session = session();
 $success = $session->getFlashData('success');
 $errors = $session->getFlashData('errors');
+$image = $session->getFlashData('image');
 // print_r($activities);
 // exit;
 ?>
@@ -31,6 +32,16 @@ $errors = $session->getFlashData('errors');
                     <hr>
                     <p class="mb-0">
                         Data Telah Tersimpan
+                    </p>
+                </div>
+            <?php endif ?>
+            <?php if ($image != null) : ?>
+                <div class="alert alert-danger mt-2" role="alert">
+                    <h4 class="alert-heading">Terjadi Kesalahan</h4>
+                    <hr>
+                    <p class="mb-0">
+
+                        File bukan tipe gambar (JPG)
                     </p>
                 </div>
             <?php endif ?>
