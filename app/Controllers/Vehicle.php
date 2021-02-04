@@ -188,26 +188,19 @@ class Vehicle extends BaseController
         $counts = $jmlcek + $jmlmaint;
         $sessData = ['counts' => $counts];
         $this->session->set($sessData);
-
-        // print_r($activity);
-        // exit;
         return view('detail', $data);
     }
     public function addCheck()
     {
         $data = $this->request->getPost();
         $id = $this->request->getPost('id_mobil');
-        // $id = $this->request->uri->getSegment(3);
-        // print_r($data);
-        // print_r($id);
-        // exit;
         if ($data) {
             $this->validation->run($data, 'cekMingguan');
             $errors = $this->validation->getErrors();
             if (!$errors) {
                 $cekMingguanModel = new \App\Models\CekMingguanModel();
                 $idUser = $this->session->get('id');
-                $cek = new \App\Entities\cekMingguan();
+                $cek = new \App\Entities\CekMingguan();
                 $cek->fill($data);
                 $cek->maint_created_date = Date('Y-m-d H:i:s');
                 $cek->active = 'Y';
@@ -313,7 +306,7 @@ class Vehicle extends BaseController
             $this->validation->run($data, 'cekMingguan');
             $errors = $this->validation->getErrors();
             if (!$errors) {
-                $cek = new \App\Entities\cekMingguan();
+                $cek = new \App\Entities\CekMingguan();
                 $cek->idCek = $idCek;
                 $cek->fill($data);
                 $cek->maint_updated_date = Date('Y-m-d H:i:s');
@@ -429,8 +422,6 @@ class Vehicle extends BaseController
         $detail_body = $this->request->getPost('detailBody');
         $detail_kaki = $this->request->getPost('detailKaki');
         $detail_listrik = $this->request->getPost('detailListrik');
-        // print_r($data);
-        // exit;
         $no_form = $this->request->getPost('no_form');
         $UploadModel =  new \App\Models\UploadModel();
         $Upload = new \App\Entities\Upload();
@@ -440,7 +431,6 @@ class Vehicle extends BaseController
             $errors = $this->validation->getErrors();
             if (!$errors) {
                 if ($files) {
-                    // $this->validation->run($files, 'image');
                     $this->validate([
                         'uploads' => 'uploaded[uploads]|is_image[uploads]'
                     ]);
@@ -449,7 +439,7 @@ class Vehicle extends BaseController
                         if (!$errors) {
                             $Upload->original = $file->getName();
                             $name = $file->getRandomName();
-                            $file->move('../image/upload', $name);
+                            $file->move('./image/upload', $name);
                             $Upload->image = $name;
                             $Upload->no_form = $no_form;
                             $UploadModel->save($Upload);
@@ -579,11 +569,11 @@ class Vehicle extends BaseController
                     $errors = $this->validation->getErrors();
                     if (!$errors) {
                         $edit = new \App\Entities\Upload();
-                        $UploadModel->set(['active' => 'N'])->where('no_form', $no_form)->update();
+                        // $UploadModel->set(['active' => 'N'])->where('no_form', $no_form)->update();
                         foreach ($files as $file) {
                             $Upload->original = $file->getName();
                             $name = $file->getRandomName();
-                            $file->move('../image/upload', $name);
+                            $file->move('./image/upload', $name);
                             $Upload->image = $name;
                             $Upload->no_form = $no_form;
                             $UploadModel->save($Upload);
@@ -712,5 +702,24 @@ class Vehicle extends BaseController
         $this->session->set($sessData);
         $segment = ['vehicle', 'detail', $id_mobil];
         return redirect()->to(site_url($segment));
+    }
+    public function delPhoto()
+    {
+        $id_upload = $this->request->uri->getSegment(3);
+        $UploadModel = new \App\Models\UploadModel();
+        $UploadEntity = new \App\Entities\Upload();
+        $upload = $UploadModel->where('id_upload', $id_upload)->first();
+        $no_form = $upload->no_form;
+        // print_r($id_upload);
+        // print_r($no_form);
+        // exit;
+        $UploadModel->set(['active' => 'N'])->where('id_upload', $id_upload)->update();
+        // $UploadEntity->updated_by = $this->session->get('id');
+        // $UploadEntity->updated_date = date('Y-m-d H:i:s');
+        // $UploadEntity->active = 'N';
+        // $UploadModel->save($UploadEntity);
+
+        // $segment = ['vehicle', 'index'];
+        return redirect()->to(site_url('vehicle/detailMaint/' . $no_form));
     }
 }

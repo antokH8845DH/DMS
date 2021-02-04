@@ -21,8 +21,11 @@ class Validasi extends BaseController
         $array = [
             'maintenance.active' => 'Y', 'maintenance.validasi' => 'N', 'maintenance.status' => '1',
         ];
-        $maintenance = $MaintenanceModel->join('mobil', 'maintenance.id_mobil=mobil.id')->where($array)->findAll();
-        $trouble = $MaintenanceModel->join('mobil', 'maintenance.id_mobil=mobil.id')->where(['maintenance.active' => 'Y', 'maintenance.validasi' => 'N', 'maintenance.status' => '2',])->findAll();
+        $maintenance = $MaintenanceModel->join('mobil', 'maintenance.id_mobil=mobil.id')->join('upload', 'maintenance.no_form=upload.no_form')->where($array)->groupBy('maintenance.no_form')->findAll();
+        $trouble = $MaintenanceModel->join('mobil', 'maintenance.id_mobil=mobil.id')->join('upload', 'maintenance.no_form=upload.no_form')->where(['maintenance.active' => 'Y', 'maintenance.validasi' => 'N', 'maintenance.status' => '2',])->groupBy('maintenance.no_form')->findAll();
+
+        $upload = $MaintenanceModel->join('upload', 'maintenance.no_form=upload.no_form')->where(['upload.active' => 'Y'])->findAll();
+
         $cekMingguanModel = new \App\Models\CekMingguanModel();
         $cek = $cekMingguanModel->join('mobil', 'cekmingguan.id_mobil=mobil.id')->where(['cekmingguan.active' => 'Y', 'cekmingguan.validasi' => 'N'])->findAll();
         $array = ['validasi' => 'N', 'active' => 'Y'];
@@ -35,6 +38,7 @@ class Validasi extends BaseController
             'mobils' => $mobil, 'users' => $user,
             'maintenances' => $maintenance, 'ceks' => $cek,
             'troubles' => $trouble,
+            'uploads' => $upload,
         ]);
     }
 
@@ -85,6 +89,16 @@ class Validasi extends BaseController
         $this->session->set($sessData);
         $segment = ['validasi', 'index'];
         return redirect()->to(site_url($segment));
+    }
+    public function view()
+    {
+        $no_form = $this->request->uri->getSegment(3);
+        // print_r($no_form);
+        // exit;
+        $UploadModel = new \App\Models\UploadModel();
+        $upload =  $UploadModel->where(['no_form' => $no_form, 'active' => 'Y'])->findAll();
+        $data = ['uploads' => $upload];
+        return view('detailUpload', $data);
     }
     //--------------------------------------------------------------------
 }

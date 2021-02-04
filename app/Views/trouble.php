@@ -30,7 +30,7 @@ $id_user = $session->get('id');
                     <p></p>
                     <hr>
                     <div id="accordion5" class="according accordion-s2 gradiant-bg">
-                        <form action="<?= site_url(); ?>/Vehicle/addMaintenance" method="POST">
+                        <form action="<?= site_url(); ?>/Vehicle/addMaintenance" enctype="multipart/form-data" method="POST">
                             <div class="form-group row">
                                 <label class="col-sm-3 col-form-label" style="font-weight:800" hidden>ID</label>
                                 <div class="col-sm-2">
@@ -140,6 +140,18 @@ $id_user = $session->get('id');
                                     </div>
                                 </div>
                             </div>
+                            <div class="form-group mb-3 row">
+                                <!-- <div class="input-group"> -->
+                                <label for="exampleInputFile" class="col-4 ml-1">Tambah Foto</label>
+                                <div class="custom-file col-8 ml-3">
+                                    <input type="file" class="custom-file-input" id="exampleInputFile" name='uploads[]' multiple="multiple">
+                                    <label class="custom-file-label" for="exampleInputFile">Pilih file</label>
+                                </div>
+                                <!-- <div class="input-group-append">
+                                                        <span class="input-group-text">Upload</span>
+                                                    </div> -->
+                                <!-- </div> -->
+                            </div>
                             <div class="modal-footer">
                                 <button type="submit" class="btn btn-primary">Simpan</button>
                             </div>
@@ -152,4 +164,14 @@ $id_user = $session->get('id');
 
     </div>
 </div>
+<?= $this->endSection(); ?>
+<?= $this->section('script'); ?>
+<!-- bs-custom-file-input -->
+<script src="<?= base_url(''); ?>/assets/bs-custom-file-input/bs-custom-file-input.min.js"></script>
+<!-- Page specific script -->
+<script>
+    $(function() {
+        bsCustomFileInput.init();
+    });
+</script>
 <?= $this->endSection(); ?>

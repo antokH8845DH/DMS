@@ -72,9 +72,9 @@ $role = $session->get('role');
                             <li class="active">
                                 <a href="<?= base_url('vehicle/index'); ?>" aria-expanded="true">List Kendaraan</a>
                             <li>
-                            <li class="active">
+                                <!-- <li class="active">
                                 <a href="<?= base_url('Home/upload'); ?>" aria-expanded="true">Upload</a>
-                            <li>
+                            <li> -->
                             <li class="active">
                                 <a href="<?= base_url('validasi/index'); ?>" aria-expanded="true">Validasi
                                     <?php $total = $session->get('counts');

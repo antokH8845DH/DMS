@@ -143,6 +143,7 @@ $errors = $session->getFlashData('errors');
                                             <th>Detail</th>
                                             <th>Problem</th>
                                             <th>Action</th>
+                                            <th>Foto</th>
                                             <th></th>
                                         </tr>
                                     </thead>
@@ -158,7 +159,10 @@ $errors = $session->getFlashData('errors');
                                                 <td><?= $maintenance->problem; ?></td>
                                                 <td><?= $maintenance->action; ?></td>
                                                 <td>
-                                                    <a href="" class="btn btn-sm btn-outline-success" data-toggle="modal" data-target="#modalValidasi<?= $maintenance->id_maint ?>">Validasi</a>
+                                                    <a href="<?= base_url('Validasi/view/' . $maintenance->no_form); ?> "><img src="<?= base_url('/image/upload/' . $maintenance->image) ?>" class="img-thumbnail" width="100px"></a>
+                                                </td>
+                                                <td>
+                                                    <a href="" class="btn btn-xs btn-outline-success" data-toggle="modal" data-target="#modalValidasi<?= $maintenance->id_maint ?>">Validasi</a>
                                                     <div class="modal fade" id="modalValidasi<?= $maintenance->id_maint ?>" tabindex="-10" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
                                                         <div class="modal-dialog modal-dialog-centered" role="document">
                                                             <div class="modal-content">
@@ -211,6 +215,7 @@ $errors = $session->getFlashData('errors');
                                             <th>Detail</th>
                                             <th>Problem</th>
                                             <th>Action</th>
+                                            <th>Foto</th>
                                             <th></th>
                                         </tr>
                                     </thead>
@@ -225,6 +230,9 @@ $errors = $session->getFlashData('errors');
                                                 <td><?= $trouble->detail; ?></td>
                                                 <td><?= $trouble->problem; ?></td>
                                                 <td><?= $trouble->action; ?></td>
+                                                <td>
+                                                    <a href="<?= base_url('Validasi/view/' . $trouble->no_form); ?> "><img src="<?= base_url('/image/upload/' . $trouble->image) ?>" class="img-thumbnail" width="100px"></a>
+                                                </td>
                                                 <td>
                                                     <a href="" class="btn btn-sm btn-outline-success" data-toggle="modal" data-target="#modalValidasi1<?= $trouble->id_maint ?>">validasi</a>
                                                     <div class="modal fade" id="modalValidasi1<?= $trouble->id_maint ?>" tabindex="-10" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">

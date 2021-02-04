@@ -158,9 +158,10 @@ $image = $session->getFlashData('image');
                                                 <td><?= $maintenance->detail; ?></td>
                                                 <td><?= $maintenance->problem; ?></td>
                                                 <td><?= $maintenance->action; ?></td>
-                                                <td><?php if ($maintenance->validasi == 'N') : ?>
-                                                        <a class="btn btn-sm btn-outline-warning " href="<?= site_url('vehicle/detailMaint/' . $maintenance->no_form); ?>">Edit</a>
-                                                        <a href="" class="btn btn-sm btn-outline-danger" data-toggle="modal" data-target="#modalDelete<?= $maintenance->id_maint ?>">Hapus</a>
+                                                <td>
+                                                    <?php if ($maintenance->validasi == 'N') : ?>
+                                                        <a class="btn btn-xs btn-outline-warning " href="<?= site_url('vehicle/detailMaint/' . $maintenance->no_form); ?>">Edit</a>
+                                                        <a href="" class="btn btn-xs btn-outline-danger" data-toggle="modal" data-target="#modalDelete<?= $maintenance->id_maint ?>">Hapus</a>
                                                         <div class="modal fade" id="modalDelete<?= $maintenance->id_maint ?>" tabindex="-10" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
                                                             <div class="modal-dialog modal-dialog-centered" role="document">
                                                                 <div class="modal-content">
@@ -229,8 +230,8 @@ $image = $session->getFlashData('image');
                                                 <td><?= $trouble->action; ?></td>
                                                 <td>
                                                     <?php if ($trouble->validasi == 'N') : ?>
-                                                        <a class="btn btn-outline-warning " href="<?= site_url('vehicle/detailMaint/' . $trouble->no_form); ?>">Edit</a>
-                                                        <a href="" class="btn btn-sm btn-outline-danger" data-toggle="modal" data-target="#modalDelete1<?= $trouble->id_maint ?>">Hapus</a>
+                                                        <a class="btn btn-xs btn-outline-warning " href="<?= site_url('vehicle/detailMaint/' . $trouble->no_form); ?>">Edit</a>
+                                                        <a href="" class="btn btn-xs btn-sm btn-outline-danger" data-toggle="modal" data-target="#modalDelete1<?= $trouble->id_maint ?>">Hapus</a>
                                                         <div class="modal fade" id="modalDelete1<?= $trouble->id_maint ?>" tabindex="-10" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
                                                             <div class="modal-dialog modal-dialog-centered" role="document">
                                                                 <div class="modal-content">

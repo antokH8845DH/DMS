@@ -10,8 +10,8 @@
     <link rel="stylesheet" href="<?= base_url(); ?>/assets/css/bootstrap.min.css">
     <link rel="stylesheet" href="<?= base_url(); ?>/assets/css/font-awesome.min.css">
     <link rel="stylesheet" href="<?= base_url(); ?>/assets/css/themify-icons.css">
-    <link rel="stylesheet" href="<?= base_url(); ?>/assets/css/metisMenu.css">
-    <link rel="stylesheet" href="<?= base_url(); ?>/assets/css/owl.carousel.min.css">
+    <!-- <link rel="stylesheet" href="<?= base_url(); ?>/assets/css/metisMenu.css"> -->
+    <!-- <link rel="stylesheet" href="<?= base_url(); ?>/assets/css/owl.carousel.min.css"> -->
     <link rel="stylesheet" href="<?= base_url(); ?>/assets/css/slicknav.min.css">
     <!-- others css -->
     <link rel="stylesheet" href="<?= base_url(); ?>/assets/css/typography.css">
@@ -20,6 +20,8 @@
     <link rel="stylesheet" href="<?= base_url(); ?>/assets/css/responsive.css">
     <!-- modernizr css -->
     <link rel="stylesheet" type="text/css" href="<?= base_url(); ?>/assets/datecss/datepicker.css">
+    <!-- sweet alert -->
+    <!-- <link rel="stylesheet" href="<?= base_url(); ?>/assets/sweetalert2-theme-bootstrap-4/bootstrap-4.min.css"> -->
     <style>
         .datepicker {
             z-index: 1151;

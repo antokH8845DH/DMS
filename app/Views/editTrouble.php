@@ -35,7 +35,7 @@ $id_user = $session->get('id');
                     <p></p>
                     <hr>
                     <div id="accordion5" class="according accordion-s2 gradiant-bg">
-                        <form action="<?= site_url(); ?>/Vehicle/editMaintenance/<?= $maint->no_form; ?>" method="POST">
+                        <form action="<?= site_url(); ?>/Vehicle/editMaintenance/<?= $maint->no_form; ?>" enctype="multipart/form-data" method="POST">
                             <div class="form-group row">
                                 <label class="col-sm-3 col-form-label" style="font-weight:800" hidden>ID</label>
                                 <div class="col-sm-2">
@@ -207,15 +207,81 @@ $id_user = $session->get('id');
                                     </div>
                                 </div>
                             </div>
-                            <div class="modal-footer">
-                                <button type="submit" class="btn btn-primary">Simpan</button>
+                            <div class="form-group mb-3 row">
+                                <label for="exampleInputFile" class="col-4 ml-1">Tambah Foto</label>
+                                <div class="custom-file col-8 ml-3">
+                                    <input type="file" class="custom-file-input" id="exampleInputFile" name='uploads[]' multiple="multiple">
+                                    <label class="custom-file-label" for="exampleInputFile"></label>
+                                </div>
                             </div>
+                            <button type="submit" class="btn btn-primary">Simpan</button>
                         </form>
                     </div>
+                </div>
+            </div>
+            <div class="card mt-2" style="text-align: center;">
+                <h5 class="mt-2 ml-2">Hasil Upload</h5>
+                <div class="col-md-2 mb-2 mt-2 ml-2 mr-2 row">
+                    <?php foreach ($fileuploads as $file) : ?>
+                        <img src="<?= base_url('/image/upload/' . $file->image) ?>" class="img-thumbnail">
+                        <a href="" class="" data-toggle="modal" data-target="#modalView<?= $file->id_upload ?>">view</a>
+                        <div class="modal fade" id="modalView<?= $file->id_upload ?>" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                            <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h6 class="modal-title" id="exampleModalCenterTitle"><?= $file->original; ?></h6>
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <div class="container-fluid">
+                                            <div class="col-12">
+                                                <img src="<?= base_url('/image/upload/' . $file->image) ?>" class="card-img mt-2 mb-2 mx-1" size="200px" alt="image">
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                        <a href="" class="" data-toggle="modal" data-target="#modalHapus<?= $file->id_upload ?>">| Hapus</a>
+                        <div class="modal fade bd-example-modal-lg" id="modalHapus<?= $file->id_upload ?>" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                            <div class="modal-dialog modal-dialog-centered" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="exampleModalCenterTitle">Yakin Foto akan dihapus??</h5>
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+                                    <form action="<?= site_url('/vehicle/delPhoto/' . $file->id_upload); ?>" method="POST">
+                                        <div class="modal-body" style="text-align: left;">
+                                            <p><?= $file->original; ?></p>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Batal</button>
+                                            <button type="submit" class="btn btn-danger">Ya Hapus</button>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    <?php endforeach ?>
                 </div>
             </div>
         </div>
         <!-- accordion style 5 end -->
     </div>
 </div>
+<?= $this->endSection(); ?>
+<?= $this->section('script'); ?>
+<!-- bs-custom-file-input -->
+<script src="<?= base_url(''); ?>/assets/bs-custom-file-input/bs-custom-file-input.min.js"></script>
+<!-- Page specific script -->
+<script>
+    $(function() {
+        bsCustomFileInput.init();
+    });
+</script>
 <?= $this->endSection(); ?>
