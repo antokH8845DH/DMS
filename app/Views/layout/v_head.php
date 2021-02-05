@@ -10,8 +10,8 @@
     <link rel="stylesheet" href="<?= base_url(); ?>/assets/css/bootstrap.min.css">
     <link rel="stylesheet" href="<?= base_url(); ?>/assets/css/font-awesome.min.css">
     <link rel="stylesheet" href="<?= base_url(); ?>/assets/css/themify-icons.css">
-    <!-- <link rel="stylesheet" href="<?= base_url(); ?>/assets/css/metisMenu.css"> -->
-    <!-- <link rel="stylesheet" href="<?= base_url(); ?>/assets/css/owl.carousel.min.css"> -->
+    <link rel="stylesheet" href="<?= base_url(); ?>/assets/css/metisMenu.css">
+    <link rel="stylesheet" href="<?= base_url(); ?>/assets/css/owl.carousel.min.css">
     <link rel="stylesheet" href="<?= base_url(); ?>/assets/css/slicknav.min.css">
     <!-- others css -->
     <link rel="stylesheet" href="<?= base_url(); ?>/assets/css/typography.css">
