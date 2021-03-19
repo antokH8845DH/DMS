@@ -28,7 +28,9 @@ class Auth extends BaseController
                 $user->created_date = date("Y-m-d H:i:s");
 
                 $userModel->save($user);
-
+                if ($userModel) {
+                    $this->session->setFlashdata('flash', 'Registrasi Berhasil');
+                }
                 return view('login');
 
                 // print_r($data);
@@ -85,6 +87,7 @@ class Auth extends BaseController
                     // print_r($sessData);
                     // exit();
                     // return view('register');
+                    $this->session->setFlashdata('flash', 'Welcome, ' . $user->name);
                     return redirect()->to(base_url('home/index'));
                 }
             } else {
@@ -163,7 +166,7 @@ class Auth extends BaseController
                 $this->session->set($sessData);
 
                 if ($UserModel) {
-                    $this->session->setFlashdata('success', "Data Telah di Simpan");
+                    $this->session->setFlashdata('flash', "Update Profile Telah di Simpan");
                 }
                 return redirect()->to(base_url('home/user/' . $id));
             }

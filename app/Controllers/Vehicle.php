@@ -46,7 +46,7 @@ class Vehicle extends BaseController
                 $vehicle->created_date = Date('Y-m-d H:i:s');
                 $vehicleModel->save($vehicle);
                 if ($vehicleModel) {
-                    $this->session->setFlashdata('success', 'data telah tersimpan');
+                    $this->session->setFlashdata('flash', "Data Kendaraan Telah di Simpan");
                 }
                 $cekMingguanModel = new \App\Models\CekMingguanModel();
                 $array = ['validasi' => 'N', 'active' => 'Y'];
@@ -85,7 +85,7 @@ class Vehicle extends BaseController
                 // exit;
                 $vehicleModel->save($mobil);
                 if ($vehicleModel) {
-                    $this->session->setFlashdata('success', 'data telah diupdate');
+                    $this->session->setFlashdata('flash', "Data Kendaraan Telah di Update");
                 }
                 $segment = ['vehicle', 'index'];
                 return redirect()->to(site_url($segment));
@@ -218,7 +218,7 @@ class Vehicle extends BaseController
                 $id = $this->request->getPost('id_mobil');
                 $segment = ['vehicle', 'detail', $id];
                 if ($cekMingguanModel) {
-                    $this->session->setFlashdata('success', "Data Telah di Simpan");
+                    $this->session->setFlashdata('flash', "Data Check Mingguan Telah di Simpan");
                 }
                 return redirect()->to(site_url($segment));
             } else {
@@ -327,7 +327,7 @@ class Vehicle extends BaseController
                 $notif = 'Data Telah Tersimpan';
                 $segment = ['vehicle', 'detail', $id];
                 if ($cekMingguanModel) {
-                    $this->session->setFlashdata('success', "Data Telah di Simpan");
+                    $this->session->setFlashdata('flash', "Edit Data Telah di Simpan");
                 }
                 return redirect()->to(site_url($segment));
             } else {

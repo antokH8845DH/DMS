@@ -115,7 +115,7 @@ class Maintenance extends BaseController
                 // print_r($Upload);
                 // exit;
                 if ($MaintenanceModel) {
-                    $this->session->setFlashdata('success', "Data Telah di Simpan");
+                    $this->session->setFlashdata('flash', "Data Maintenance Telah di Simpan");
                 }
                 $cekMingguanModel = new \App\Models\CekMingguanModel();
                 $array = ['validasi' => 'N', 'active' => 'Y'];

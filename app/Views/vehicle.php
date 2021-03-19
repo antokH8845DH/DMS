@@ -14,29 +14,19 @@ $success = $session->getFlashData('success');
         <div class="col-12 mt-2">
             <div class="card">
                 <div class="card-body">
-                    <?php if ($errors != null) : ?>
-                        <div class="alert alert-danger" role="alert">
-                            <h4 class="alert-heading">Terjadi Kesalahan</h4>
-                            <hr>
-                            <p class="mb-0">
-                                <?php
-                                foreach ($errors as $err) {
-                                    echo $err . '<br>';
-                                }
-                                ?>
-                            </p>
-                        </div>
-                    <?php endif ?>
+                    <?php
+                    $id_user = $session->get('id');
+                    $eror = '';
+                    if ($errors != null) {
+                        foreach ($errors as $err) {
+                            $eror .=   $err . ' | ';
+                            // foreach ($ARRAY as $item) { $STRING .= $item; }
+                        }
+                    }
+                    ?>
+                    <div class="flash-data" data-flashdata="<?= $session->getFlashData('flash'); ?>"></div>
+                    <div class="flash-error" data-flasherror="<?= $eror; ?>"></div>
 
-                    <?php if ($success != null) : ?>
-                        <div class="alert alert-success mt-2" role="success">
-                            <h4 class="alert-heading">SUKSES</h4>
-                            <hr>
-                            <p class="mb-0">
-                                <?= $success; ?>
-                            </p>
-                        </div>
-                    <?php endif ?>
                     <h4 class="header-title"></h4>
                     <div class="single-table">
                         <h5 style="text-align: center;" class="mt-2 mb-4">LIST KENDARAAN</h5>

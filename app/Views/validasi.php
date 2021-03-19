@@ -10,29 +10,17 @@ $errors = $session->getFlashData('errors');
 <div class="main-content-inner">
     <div class="row">
         <div class="col-12 mt-2">
-            <?php if ($errors != null) : ?>
-                <div class="alert alert-danger" role="alert">
-                    <h4 class="alert-heading">Terjadi Kesalahan</h4>
-                    <hr>
-                    <p class="mb-0">
-                        <?php
-                        foreach ($errors as $err) {
-                            echo $err . '<br>';
-                        }
-                        ?>
-                    </p>
-                </div>
-            <?php endif ?>
-            <?php if ($success != null) : ?>
-                <div class="alert alert-success mt-2" role="success">
-                    <h4 class="alert-heading">SUKSES</h4>
-                    <hr>
-                    <p class="mb-0">
-                        Data Telah Tervalidasi
-                    </p>
-                </div>
-            <?php endif ?>
-
+            <?php
+            $eror = '';
+            if ($errors != null) {
+                foreach ($errors as $err) {
+                    $eror .=   $err . ' | ';
+                    // foreach ($ARRAY as $item) { $STRING .= $item; }
+                }
+            }
+            ?>
+            <div class="flash-data" data-flashdata="<?= $session->getFlashData('flash'); ?>"></div>
+            <div class="flash-error" data-flasherror="<?= $eror; ?>"></div>
         </div>
     </div>
     <div class="row">
@@ -44,7 +32,7 @@ $errors = $session->getFlashData('errors');
                     <?php if ($ceks) : ?>
                         <div class="table-responsive">
                             <table class="table text-center">
-                                <thead class="text-uppercase bg-info">
+                                <thead class="text-uppercase bg-success">
                                     <tr class="text-white">
                                         <th>No</th>
                                         <th>Mobil</th>
@@ -75,7 +63,7 @@ $errors = $session->getFlashData('errors');
                                     <?php foreach ($ceks as $index => $cek) : ?>
                                         <tr>
                                             <td style="text-align: center;"><?= ($index + 1); ?></td>
-                                            <td><?= $cek->merek . ' ' . $cek->type ?></td>
+                                            <td><?= $cek->merek . '<br>' . $cek->type . '<br><b>' . $cek->nopol . '</b>'; ?></td>
                                             <td><?= date('d-m-Y', strtotime($cek->maint_created_date)) ?></td>
                                             <td><?= $cek->km ?></td>
                                             <td><?= $cek->username ?></td>
@@ -151,7 +139,7 @@ $errors = $session->getFlashData('errors');
                                         <?php foreach ($maintenances as $index => $maintenance) : ?>
                                             <tr>
                                                 <td style="text-align: center;"><?= ($index + 1); ?></td>
-                                                <td><?= $maintenance->merek . ' ' . $maintenance->type; ?></td>
+                                                <td><?= $maintenance->merek . '<br>' . $maintenance->type . '<br><b>' . $maintenance->nopol . '</b>'; ?></td>
                                                 <td><?= date('d-m-Y', strtotime($maintenance->tanggal)); ?></td>
                                                 <td><?= $maintenance->km; ?></td>
                                                 <td><?= $maintenance->username; ?></td>
@@ -223,7 +211,7 @@ $errors = $session->getFlashData('errors');
                                         <?php foreach ($troubles as $index => $trouble) : ?>
                                             <tr>
                                                 <td style="text-align: center;"><?= ($index + 1); ?></td>
-                                                <td><?= $trouble->merek . ' ' . $trouble->type; ?></td>
+                                                <td><?= $trouble->merek . '<br>' . $trouble->type . '<br><b>' . $trouble->nopol . '</b>'; ?></td>
                                                 <td><?= date('d-m-Y', strtotime($trouble->tanggal)); ?></td>
                                                 <td><?= $trouble->km; ?></td>
                                                 <td><?= $trouble->username; ?></td>
@@ -246,7 +234,7 @@ $errors = $session->getFlashData('errors');
                                                                 </div>
                                                                 <form action="<?= site_url('/validasi/valMaint/' . $trouble->id_maint); ?>" method="POST">
                                                                     <div class="modal-body" style="text-align: left;">
-                                                                        <p><?= $trouble->merek . ' ' . $trouble->type; ?></p>
+                                                                        <p><?= $trouble->merek . ' ' . $trouble->type . '' . $trouble->nopol; ?></p>
                                                                         <p>Problem : <?= $trouble->problem; ?></p>
                                                                         <p>Action : <?= $trouble->action; ?></p>
                                                                     </div>
@@ -259,6 +247,166 @@ $errors = $session->getFlashData('errors');
                                                         </div>
                                                     </div>
                                                 </td>
+                                            </tr>
+                                        <?php endforeach ?>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <?php else : ?>
+                            <h6 style="text-align: center;font-weight:600">semua aktivitas TROUBLE sudah tervalidasi</h6>
+                        <?php endif ?>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-12 mt-1">
+            <div class="card">
+                <div class="card-body">
+                    <h6 style="font-weight: 1000;">LIST AKTIFITAS YANG TELAH TERVALIDASI</h6><br>
+                    <h6 class="mb-1" style="text-align:center;font-weight:900">Cek Mingguan</h6>
+                    <?php if ($ceks2) : ?>
+                        <div class="table-responsive">
+                            <table class="table text-center">
+                                <thead class="text-uppercase bg-success">
+                                    <tr class="text-white">
+                                        <th>No</th>
+                                        <th>Mobil</th>
+                                        <th>Tanggal</th>
+                                        <th>KM</th>
+                                        <th>Cek oleh</th>
+                                        <th>Oli Mesin</th>
+                                        <th>Oli Rem</th>
+                                        <th>air Rad</th>
+                                        <th>air Aki</th>
+                                        <th>air Wip</th>
+                                        <th>tali Kip</th>
+                                        <th>suara Mesn</th>
+                                        <th>kop-ling</th>
+                                        <th>stir</th>
+                                        <th>ban</th>
+                                        <th>lamp</th>
+                                        <th>wiper</th>
+                                        <th>tool-kit</th>
+                                        <th>Body</th>
+                                        <th>inte-rior</th>
+                                        <th>problem</th>
+                                        <th>action</th>
+                                        <th>Validator</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <?php foreach ($ceks2 as $index => $cek2) : ?>
+                                        <tr>
+                                            <td style="text-align: center;"><?= ($index + 1); ?></td>
+                                            <td><?= $cek2->merek . '<br>' . $cek2->type . '<br><b>' . $cek2->nopol . '</b>'; ?></td>
+                                            <td><?= date('d-m-Y', strtotime($cek2->maint_created_date)) ?></td>
+                                            <td><?= $cek2->km ?></td>
+                                            <td><?= $cek2->username ?></td>
+                                            <td><?= $cek2->oliMesin ?></td>
+                                            <td><?= $cek2->oliRem ?></td>
+                                            <td><?= $cek2->airRadiator ?></td>
+                                            <td><?= $cek2->airAki ?></td>
+                                            <td><?= $cek2->airWiper ?></td>
+                                            <td><?= $cek2->taliKipas ?></td>
+                                            <td><?= $cek2->suaraMesin ?></td>
+                                            <td><?= $cek2->kopling ?></td>
+                                            <td><?= $cek2->stir ?></td>
+                                            <td><?= $cek2->ban ?></td>
+                                            <td><?= $cek2->lampu ?></td>
+                                            <td><?= $cek2->wiper ?></td>
+                                            <td><?= $cek2->toolkit ?></td>
+                                            <td><?= $cek2->body ?></td>
+                                            <td><?= $cek2->interior ?></td>
+                                            <td><?= $cek2->problem ?></td>
+                                            <td><?= $cek2->action ?></td>
+                                            <td><?= $cek2->validation_by ?></td>
+                                        </tr>
+                                    <?php endforeach; ?>
+                                </tbody>
+                            </table>
+                        </div>
+                    <?php else : ?>
+                        <h6 style="text-align: center;font-weight:600">semua aktivitas CEK MINGGUAN sudah tervalidasi</h6>
+                    <?php endif ?>
+                    <div class="clear-fix">
+                        <br>
+                        <h6 class="mt-2 mb-1" style="text-align: center;font-weight:900">Maintenance</h6>
+                        <?php if ($maintenances2) : ?>
+                            <div class="table-responsive">
+                                <table class="table text-center">
+                                    <thead class="text-uppercase bg-warning">
+                                        <tr class="text-white">
+                                            <th>No</th>
+                                            <th>Mobil</th>
+                                            <th>Tanggal</th>
+                                            <th>KM</th>
+                                            <th>Driver</th>
+                                            <th>Detail</th>
+                                            <th>Problem</th>
+                                            <th>Action</th>
+                                            <th>Foto</th>
+                                            <th>Validator</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <?php foreach ($maintenances2 as $index => $maintenance2) : ?>
+                                            <tr>
+                                                <td style="text-align: center;"><?= ($index + 1); ?></td>
+                                                <td><?= $maintenance2->merek . '<br>' . $maintenance2->type . '<br><b>' . $maintenance2->nopol . '</b>'; ?></td>
+                                                <td><?= date('d-m-Y', strtotime($maintenance2->tanggal)); ?></td>
+                                                <td><?= $maintenance2->km; ?></td>
+                                                <td><?= $maintenance2->username; ?></td>
+                                                <td><?= $maintenance2->detail; ?></td>
+                                                <td><?= $maintenance2->problem; ?></td>
+                                                <td><?= $maintenance2->action; ?></td>
+                                                <td><img width="100px" src="<?= base_url('/image/upload/' . $maintenance2->image) ?>"></td>
+                                                <td><?= $maintenance2->validasi_by; ?></td>
+                                            </tr>
+                                        <?php endforeach ?>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <?php else : ?>
+                            <h6 style=" text-align: center;font-weight:600">semua aktivitas MAINTENANCE sudah tervalidasi</h6>
+                        <?php endif ?>
+                    </div>
+                    <div class="clear-fix">
+                        <br>
+                        <h6 class="mt-2 mb-1" style="text-align: center;font-weight:900">Trouble</h6>
+                        <?php if ($troubles2) : ?>
+
+                            <div class="table-responsive">
+                                <table class="table text-center">
+                                    <thead class="text-uppercase bg-danger">
+                                        <tr class="text-white">
+                                            <th>No</th>
+                                            <th>Mobil</th>
+                                            <th>Tanggal</th>
+                                            <th>KM</th>
+                                            <th>Driver</th>
+                                            <th>Detail</th>
+                                            <th>Problem</th>
+                                            <th>Action</th>
+                                            <th>Foto</th>
+                                            <th>Validator</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <?php foreach ($troubles2 as $index => $trouble2) : ?>
+                                            <tr>
+                                                <td style="text-align: center;"><?= ($index + 1); ?></td>
+                                                <td><?= $trouble2->merek . '<br>' . $trouble2->type . '<br><b>' . $trouble2->nopol . '</b>'; ?></td>
+                                                <td><?= date('d-m-Y', strtotime($trouble2->tanggal)); ?></td>
+                                                <td><?= $trouble2->km; ?></td>
+                                                <td><?= $trouble2->username; ?></td>
+                                                <td><?= $trouble2->detail; ?></td>
+                                                <td><?= $trouble2->problem; ?></td>
+                                                <td><?= $trouble2->action; ?></td>
+                                                <td><?= $trouble2->action; ?></td>
+                                                <td><?= $trouble2->validation_by; ?></td>
+
                                             </tr>
                                         <?php endforeach ?>
                                     </tbody>

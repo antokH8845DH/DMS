@@ -21,7 +21,8 @@
 <script src="<?= base_url(); ?>/assets/js/plugins.js"></script>
 <script src="<?= base_url(); ?>/assets/js/scripts.js"></script>
 <!-- SweetAlert2 -->
-<!-- <script src="../../plugins/sweetalert2/sweetalert2.min.js"></script> -->
+<script src="<?= base_url(); ?>/asset/sweetalert2/sweetalert2.all.min.js"></script>
+<script src="<?= base_url(); ?>/asset/myscript/myscript.js"></script>
 
 <?= $this->renderSection('script'); ?>
 
